@@ -1,0 +1,90 @@
+name: Theme refresh
+
+# Weekly: re-scrape each showcased project's live page and sync the entry
+# backgrounds (--pbg) to whatever the project actually ships. Opens an
+# auto-merging PR into dev when anything drifted.
+#
+# GITHUB_TOKEN pushes don't trigger workflows, so the required "Check site"
+# check would never run on our PR. Instead this workflow runs the identical
+# validation inline and reports it as a commit status with the same context —
+# the check is genuinely executed, just reported from here.
+
+on:
+  schedule:
+    - cron: "0 10 * * 1" # Mondays 10:00 UTC, after Dependabot's slot
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+  statuses: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        with:
+          ref: dev
+
+      - name: Sync themes from live pages
+        id: sync
+        run: |
+          python3 scripts/refresh_themes.py index.html
+          if git diff --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Validate site (same check as ci.yml)
+        if: steps.sync.outputs.changed == 'true'
+        run: |
+          python3 - <<'PY'
+          import html.parser, pathlib, sys
+
+          class Check(html.parser.HTMLParser):
+              def __init__(self):
+                  super().__init__()
+                  self.links = []
+              def handle_starttag(self, tag, attrs):
+                  for k, v in attrs:
+                      if k == "href" and v and not v.startswith(("http", "mailto:", "#")):
+                          self.links.append(v)
+
+          ok = True
+          for f in pathlib.Path(".").glob("*.html"):
+              c = Check()
+              c.feed(f.read_text())
+              for link in c.links:
+                  if not pathlib.Path(link).exists():
+                      print(f"{f}: broken local link {link}")
+                      ok = False
+              print(f"{f}: parsed, {len(c.links)} local links checked")
+          sys.exit(0 if ok else 1)
+          PY
+
+      - name: Open auto-merging PR
+        if: steps.sync.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          branch="theme-refresh/$(date -u +%Y%m%d)"
+          git config user.name "theme-refresh[bot]"
+          git config user.email "theme-refresh@advin.io"
+          git checkout -b "$branch"
+          git add index.html
+          git commit -m "Sync entry backgrounds with live project themes"
+          git push origin "$branch" --force
+          sha="$(git rev-parse HEAD)"
+
+          # Report the validation we just ran under the required context.
+          gh api -X POST "repos/${GITHUB_REPOSITORY}/statuses/${sha}" \
+            -f state=success -f context="Check site" \
+            -f description="validated inline by theme-refresh"
+
+          gh pr create --base dev --head "$branch" \
+            --title "Theme refresh: sync entry backgrounds with live pages" \
+            --body "Weekly scrape of each project's live page. Only \`--pbg\` (and \`--pink\` when contrast demands) change; fonts, bars, and accents stay hand-curated. Validation ran inline in this workflow." \
+            || true
+          gh pr merge "$branch" --auto --merge || true

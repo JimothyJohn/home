@@ -66,7 +66,12 @@ variable 300–700).
   one- or two-sentence description, nothing else. No rank numbers, no
   column headers, no language/commit/date metadata.
 - **Accent bars.** Each entry carries a thin left bar in its project's
-  accent color; hover floods the entry with the project's own surface.
+  accent color.
+- **Project surfaces.** Each row wears its project's own live page
+  background at rest — the gallery is a quilt of the projects' actual
+  surfaces. `scripts/refresh_themes.py` re-scrapes every page weekly (the
+  `Theme refresh` workflow) and PRs any drift, so the quilt never goes
+  stale.
 - **Soul shards.** Each entry casts one small fragment of its project's
   world into the row's white space — a spec row, an API response, a fleet
   status, a stamp — set in the project's own type and palette, tilted and

@@ -92,36 +92,33 @@
     display: grid;
     grid-template-columns: minmax(0, 1fr) 250px;
     gap: 28px; align-items: center;
+    /* each row wears its project's own page background at rest;
+       scripts/refresh_themes.py keeps --pbg synced to the live page */
+    background: var(--pbg, var(--paper));
     border-top: 1px solid var(--rule);
     border-left: 4px solid var(--pbar, var(--ink));
     padding: 34px 26px 34px 22px;
     scroll-margin-top: 40px;
-    transition: background .18s ease;
   }
-  .entry:hover { background: var(--pbg, var(--paper2)); }
-  .entry:hover .desc { color: var(--pink, var(--ink-soft)); }
-  .entry:hover .name { color: var(--pacc, var(--ink)); }
   .entry .head { display: flex; align-items: center; gap: 14px; }
   .entry .name {
     font-family: var(--pfont, var(--font));
     font-size: clamp(1.5rem, 3.4vw, 2.1rem); font-weight: 700;
-    line-height: 1.15; color: var(--ink);
+    line-height: 1.15; color: var(--pacc, var(--ink));
     text-decoration: none;
-    transition: color .15s;
   }
   .entry .name:hover { text-decoration: underline; text-underline-offset: 6px; text-decoration-thickness: 2px; }
   .entry.caps .name { text-transform: uppercase; letter-spacing: 0.02em; }
   .entry .src {
     display: inline-flex; align-items: center;
-    color: var(--faint); transition: color .15s;
+    color: var(--pink, var(--faint)); opacity: .7;
+    transition: opacity .15s;
   }
   .entry .src svg { width: 22px; height: 22px; fill: currentColor; }
-  .entry .src:hover { color: var(--pacc, var(--ink)); }
-  .entry:hover .src { color: var(--pink, var(--faint)); }
+  .entry .src:hover { opacity: 1; }
   .entry .desc {
-    margin-top: 10px; color: var(--ink-soft);
+    margin-top: 10px; color: var(--pink, var(--ink-soft));
     font-size: 0.95rem; max-width: 60ch;
-    transition: color .15s;
   }
 
   /* soul shards: one small fragment of each project's own world, cast
