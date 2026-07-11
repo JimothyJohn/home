@@ -66,8 +66,16 @@ variable 300–700).
   one- or two-sentence description, nothing else. No rank numbers, no
   column headers, no language/commit/date metadata.
 - **Accent bars.** Each entry carries a thin left bar in its project's
-  accent color — the only color at rest; hover floods the entry with the
-  project's own surface.
+  accent color; hover floods the entry with the project's own surface.
+- **Soul shards.** Each entry casts one small fragment of its project's
+  world into the row's white space — a spec row, an API response, a fleet
+  status, a stamp — set in the project's own type and palette, tilted and
+  gently adrift, straightening on hover. One shard per project, never
+  more; the shard is evidence, not decoration. The hero carries a
+  seven-tick shard index, one accent per project, linking down the page.
+- **Motion is quiet.** A single staggered rise on load, scroll reveals on
+  rows, the shards' slow drift — all disabled under
+  `prefers-reduced-motion`. Nothing blinks, nothing loops loudly.
 - **Heavy rules.** Sections open with a 3px ink rule; entries separate with
   hairlines.
 - **Flat surfaces.** No shadows, no grain, no texture.
