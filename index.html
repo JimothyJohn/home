@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Advin — Independent engineering. Selected work.</title>
+<meta name="description" content="Advin is an independent engineering workshop. Ten working projects — industrial spec data, robot emulators, embedded fleets — ranked by the work.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f4efe6;
+    --paper2: #ece5d8;
+    --ink: #1c1a16;
+    --ink-soft: #57524a;
+    --faint: #8d867a;
+    --rule: #d8cfbf;
+    --mark: #b3382c;           /* press-stamp vermillion */
+    --serif: "Fraunces", serif;
+    --mono: "Spline Sans Mono", monospace;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--serif);
+    line-height: 1.5;
+    /* subtle paper grain */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.025 0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  ::selection { background: var(--mark); color: var(--paper); }
+  .wrap { max-width: 1020px; margin: 0 auto; padding: 0 28px; }
+
+  /* masthead */
+  header { padding: 30px 0 0; }
+  .mast { display: flex; align-items: baseline; gap: 16px; border-bottom: 3px solid var(--ink); padding-bottom: 14px; }
+  .mast .word {
+    font-family: var(--mono); font-size: 12px; letter-spacing: 0.28em;
+    text-transform: uppercase; color: var(--ink-soft);
+  }
+  .mast .sp { margin-left: auto; }
+  .mast a { color: var(--ink-soft); text-decoration: none; border-bottom: 1px solid var(--rule); }
+  .mast a:hover { color: var(--mark); border-color: var(--mark); }
+
+  /* hero */
+  .hero { padding: 72px 0 60px; position: relative; }
+  .hero h1 {
+    font-size: clamp(4.2rem, 13vw, 9.5rem);
+    font-weight: 900; line-height: 0.9; letter-spacing: -0.02em;
+    font-variation-settings: "opsz" 144;
+  }
+  .hero h1 .dot { color: var(--mark); }
+  .hero .dek {
+    margin-top: 26px; max-width: 52ch;
+    font-size: clamp(1.05rem, 2vw, 1.3rem); color: var(--ink-soft);
+    font-weight: 400;
+  }
+  .hero .dek b { color: var(--ink); font-weight: 600; }
+  /* press stamp */
+  .stamp {
+    position: absolute; right: 24px; top: 66px;
+    width: 118px; height: 118px; border: 2px solid var(--mark);
+    border-radius: 50%; color: var(--mark);
+    font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.18em;
+    text-transform: uppercase; text-align: center;
+    display: grid; place-items: center;
+    transform: rotate(8deg);
+    opacity: 0.85;
+  }
+  .stamp span { display: block; padding: 0 10px; }
+  @media (max-width: 720px) { .stamp { display: none; } }
+
+  /* ledger head */
+  .ledgerhead {
+    display: flex; align-items: baseline; gap: 18px;
+    border-top: 3px solid var(--ink); border-bottom: 1px solid var(--ink);
+    padding: 10px 0; margin-bottom: 4px;
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--ink-soft);
+  }
+  .ledgerhead .sp { margin-left: auto; }
+
+  /* entries */
+  .entry {
+    display: grid;
+    grid-template-columns: 86px 1fr 250px;
+    gap: 26px;
+    padding: 30px 0 28px;
+    border-bottom: 1px solid var(--rule);
+    text-decoration: none; color: inherit;
+    position: relative;
+    transition: background .18s ease;
+  }
+  @media (max-width: 820px) { .entry { grid-template-columns: 60px 1fr; } .meta { grid-column: 2; } }
+  .entry:hover { background: var(--paper2); }
+  .entry:hover .name { color: var(--mark); }
+  .entry .no {
+    font-family: var(--mono); font-size: 13px; color: var(--faint);
+    padding-top: 14px;
+  }
+  .entry .no::before { content: "№"; margin-right: 6px; color: var(--rule); }
+  .entry .name {
+    font-size: clamp(1.7rem, 4vw, 2.6rem); font-weight: 600;
+    line-height: 1.05; letter-spacing: -0.01em;
+    transition: color .15s;
+  }
+  .entry .desc { margin-top: 10px; color: var(--ink-soft); font-size: 1.02rem; max-width: 58ch; }
+  .entry .meta {
+    font-family: var(--mono); font-size: 11px; color: var(--faint);
+    padding-top: 16px; line-height: 2;
+    text-transform: uppercase; letter-spacing: 0.06em;
+  }
+  .entry .meta b { color: var(--ink); font-weight: 500; }
+  .entry .meta .live { color: var(--mark); }
+  .entry .arrow {
+    position: absolute; right: 4px; bottom: 22px;
+    font-family: var(--mono); font-size: 13px; color: var(--rule);
+    transition: color .15s, transform .18s;
+  }
+  .entry:hover .arrow { color: var(--mark); transform: translateX(4px); }
+
+  /* rank one gets display treatment */
+  .entry.first .name { font-size: clamp(2.4rem, 6vw, 4rem); font-weight: 900; }
+
+  /* colophon */
+  footer { padding: 54px 0 70px; }
+  .colophon {
+    border-top: 3px solid var(--ink); padding-top: 18px;
+    display: flex; gap: 24px; flex-wrap: wrap;
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--faint);
+  }
+  .colophon a { color: var(--ink-soft); text-decoration: none; border-bottom: 1px solid var(--rule); }
+  .colophon a:hover { color: var(--mark); border-color: var(--mark); }
+  .colophon .sp { margin-left: auto; }
+</style>
+</head>
+<body>
+
+<header class="wrap">
+  <div class="mast">
+    <span class="word">Advin</span>
+    <span class="word">·</span>
+    <span class="word">Field Notes &amp; Working Projects</span>
+    <span class="sp"></span>
+    <span class="word"><a href="mailto:nick@advin.io">nick@advin.io</a></span>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="hero">
+    <h1>Advin<span class="dot">.</span></h1>
+    <p class="dek">An independent engineering workshop. Below: the <b>ten
+    most-developed projects</b> on the bench — industrial spec data, robot
+    emulators, device fleets — ranked by commits, the only metric that
+    doesn't flatter.</p>
+    <div class="stamp"><span>RANKED BY<br>COMMITS<br>— 2026 —</span></div>
+  </div>
+
+  <div class="ledgerhead">
+    <span>№</span><span>Project</span><span class="sp"></span><span>Record</span>
+  </div>
+
+  <a class="entry first" href="https://www.specodex.com">
+    <div class="no">01</div>
+    <div>
+      <div class="name">Specodex</div>
+      <p class="desc">Cross-vendor industrial spec data — motors, drives,
+      gearheads, contactors, robot arms — indexed, filtered, and exportable.
+      No marketing copy on the rows, no request-a-quote gates.</p>
+    </div>
+    <div class="meta">Python · 629 commits<br><b>active 2026</b> · <span class="live">live at specodex.com</span></div>
+    <span class="arrow">→</span>
+  </a>
+
+  <a class="entry" href="https://amr-emulator.com">
+    <div class="no">02</div>
+    <div>
+      <div class="name">AMR Emulator</div>
+      <p class="desc">Spec-faithful emulators of autonomous-mobile-robot REST
+      APIs — MiR today, more brands coming. Develop and test fleet software
+      without a robot on the floor.</p>
+    </div>
+    <div class="meta">Python · 145 commits<br><b>active 2026</b> · <span class="live">live at amr-emulator.com</span></div>
+    <span class="arrow">→</span>
+  </a>
+
+  <a class="entry" href="https://github.com/JimothyJohn/uServer">
+    <div class="no">03</div>
+    <div>
+      <div class="name">uServer</div>
+      <p class="desc">A microserver template in C++ — the small, sharp
+      starting point for services that have to fit where full frameworks
+      don't.</p>
+    </div>
+    <div class="meta">C++ · 81 commits<br><b>2021</b> · source</div>
+    <span class="arrow">→</span>
+  </a>
+
+  <a class="entry" href="https://jimothyjohn.github.io/tensor-factory/">
+    <div class="no">04</div>
+    <div>
+      <div class="name">Tensor Factory</div>
+      <p class="desc">Bootstrap efficient machine-learning models — tooling
+      for getting small, fast models into production shape.</p>
+    </div>
+    <div class="meta">Python · 63 commits<br><b>active 2026</b> · docs</div>
+    <span class="arrow">→</span>
+  </a>
+
+  <a class="entry" href="https://jimothyjohn.github.io/supervictor/">
+    <div class="no">05</div>
+    <div>
+      <div class="name">Supervictor</div>
+      <p class="desc">Fleet operations for connected hardware, all in Rust —
+      per-device mTLS identity, a live dashboard, firmware tracking. From
+      ESP32 register to cloud database in one language.</p>
+    </div>
+    <div class="meta">Rust · 55 commits<br><b>active 2026</b> · <span class="live">live demo</span></div>
+    <span class="arrow">→</span>
+  </a>
+
+  <a class="entry" href="https://github.com/JimothyJohn/uplink">
+    <div class="no">06</div>
+    <div>
+      <div class="name">Uplink</div>
+      <p class="desc">Monitor machine states with a microcontroller — the
+      original field experiment that grew into the fleet work above.</p>
+    </div>
+    <div class="meta">C++ · 19 commits<br><b>2023</b> · source</div>
+    <span class="arrow">→</span>
+  </a>
+
+  <a class="entry" href="https://jimothyjohn.github.io/ophanim/">
+    <div class="no">07</div>
+    <div>
+      <div class="name">Ophanim</div>
+      <p class="desc">A worked example of serverless CPU inference — an
+      endpoint pattern for running models without keeping a GPU warm.</p>
+    </div>
+    <div class="meta">Python · 19 commits<br><b>active 2026</b> · docs</div>
+    <span class="arrow">→</span>
+  </a>
+
+  <a class="entry" href="https://jimothyjohn.github.io/big-canyon-band-page/">
+    <div class="no">08</div>
+    <div>
+      <div class="name">Big Canyon</div>
+      <p class="desc">Landing page for the Big Canyon band — proof the
+      workshop ships things with a backbeat, too.</p>
+    </div>
+    <div class="meta">Shell · 18 commits<br><b>2025</b> · <span class="live">live</span></div>
+    <span class="arrow">→</span>
+  </a>
+
+  <a class="entry" href="https://github.com/JimothyJohn/uptime-visuals">
+    <div class="no">09</div>
+    <div>
+      <div class="name">Uptime Visuals</div>
+      <p class="desc">Graphics experiments in Flutter — machine-uptime data
+      rendered as something a plant floor actually wants to look at.</p>
+    </div>
+    <div class="meta">Dart · 10 commits<br><b>2024</b> · source</div>
+    <span class="arrow">→</span>
+  </a>
+
+  <a class="entry" href="https://github.com/JimothyJohn/colmapper">
+    <div class="no">10</div>
+    <div>
+      <div class="name">Colmapper</div>
+      <p class="desc">An endpoint that extracts COLMAP photogrammetry data
+      from a plain video — 3D reconstruction as a service call.</p>
+    </div>
+    <div class="meta">Python · 9 commits · ★ 6<br><b>2025</b> · source</div>
+    <span class="arrow">→</span>
+  </a>
+</main>
+
+<footer class="wrap">
+  <div class="colophon">
+    <span>© 2026 Advin</span>
+    <a href="https://github.com/JimothyJohn">github.com/JimothyJohn</a>
+    <a href="mailto:nick@advin.io">Correspondence</a>
+    <span class="sp">Set in Fraunces &amp; Spline Sans Mono</span>
+  </div>
+</footer>
+
+</body>
+</html>
