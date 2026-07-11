@@ -1,0 +1,140 @@
+@font-face {
+    font-family: 'Orbitron';
+    src: url('fonts/Orbitron-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Orbitron';
+    src: url('fonts/Orbitron-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Orbitron', sans-serif;
+    color: #222;
+    background: linear-gradient(30deg, #555, #aaa);
+}
+
+footer {
+    text-align: center;
+    padding: 10px 0;
+    width: 100%;
+}
+
+nav {
+    width: 100%;
+    background-color: #222;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 50px;
+}
+
+nav ul li {
+    flex-grow: 1;
+    text-align: center;
+}
+
+nav ul li a {
+    display: block;
+    color: #eee;
+    text-decoration: none;
+    padding: 14px 16px;
+}
+
+nav ul li a:hover {
+    background-color: #111;
+}
+
+#headline {
+    font-size: 100px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh);
+    width: 50%;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    margin: 0 auto;
+}
+
+
+.info-paragraph {
+    font-size: 24px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.info-paragraph a {
+    color: #555;
+    /* Sets the link color to gray */
+    text-decoration: none;
+    /* Optional: Removes the underline from links */
+}
+
+/* Optionally, to change the color on hover */
+.info-paragraph a:hover {
+    color: darkgray;
+    /* Darker gray color on hover */
+}
+
+@keyframes fadeOutAndShrink {
+    from {
+        opacity: 1;
+        text-transform: scale(1);
+    }
+
+    to {
+        opacity: 0;
+        text-transform: scale(0.5);
+    }
+}
+
+@keyframes fadeInAndGrow {
+    from {
+        opacity: 0;
+        text-transform: scale(0.5);
+    }
+
+    to {
+        opacity: 1;
+        text-transform: scale(1);
+    }
+}
+
+.fade-out-and-shrink {
+    animation: fadeOutAndShrink 1s ease;
+}
+
+.fade-in-and-grow {
+    animation: fadeInAndGrow 1s ease;
+}
