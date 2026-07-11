@@ -7,9 +7,12 @@ implementation.
 
 ## Identity
 
-**advin.io** is a boutique AI research lab — handcrafted, exclusive, small
-on purpose. The brand is deliberately plain: near-pure white, near-pure
-black, one rounded typeface.  No gradients, no icon set, no mascot.
+**advin.io** is a boutique AI research lab in **Dallas, TX** — handcrafted,
+exclusive, small on purpose. The location is part of the story: a
+cutting-edge lab in a metroplex with few if any others. State it plainly
+(hero, footer, bios); never bury it. The brand is deliberately plain:
+near-pure white, near-pure black, one rounded typeface. No gradients, no
+icon set, no mascot.
 
 The name is **advin.io**, written exactly that way — **always lowercase,
 always with the `.io`** — in headings, body copy, the wordmark, everywhere.
