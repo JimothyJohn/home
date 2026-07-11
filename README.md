@@ -1,7 +1,9 @@
 # home
 
-The static home page of [advin.io](https://advin.io) — a showcase of the ten
+The static home page of [advin.io](https://advin.io) — a showcase of the
 most-developed projects on github.com/JimothyJohn, ranked by commit count.
+The list is curated: uplink, uptime-visuals, and big-canyon-band-page are
+deliberately excluded. Visual identity lives in [BRANDING.md](BRANDING.md).
 
 Plain HTML/CSS, no build step. `Deploy Pages` publishes `master` to GitHub
 Pages; work lands via PRs into `dev`, and `dev → master` is a manual merge.
