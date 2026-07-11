@@ -31,7 +31,10 @@
   a { color: inherit; }
 
   /* masthead */
-  header { padding: 30px 0 0; }
+  /* .wrap's margin/padding outrank bare element selectors, so the frame
+     spacing needs the compound selector; padding (not margin) so the
+     bottom gap survives at the end of the document */
+  header.wrap { padding-top: 56px; }
   .mast {
     display: flex; align-items: center; gap: 16px;
     border-bottom: 3px solid var(--ink); padding-bottom: 14px;
@@ -102,7 +105,7 @@
   }
 
   /* footer */
-  footer { padding: 54px 0 60px; }
+  footer.wrap { padding-top: 54px; padding-bottom: 96px; }
   .colophon {
     border-top: 3px solid var(--ink); padding-top: 22px;
     text-align: center;
