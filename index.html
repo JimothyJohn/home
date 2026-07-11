@@ -7,52 +7,47 @@
 <meta name="description" content="Advin is an independent engineering workshop. Seven working projects — industrial spec data, robot emulators, embedded fleets — ranked by the work.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --paper: #f4efe6;
-    --paper2: #ece5d8;
-    --ink: #1c1a16;
-    --ink-soft: #57524a;
-    --faint: #8d867a;
-    --rule: #d8cfbf;
-    --mark: #b3382c;           /* press-stamp vermillion */
-    --display: "Oswald", sans-serif;
-    --mono: "IBM Plex Mono", monospace;
+    --paper: #fcfcfc;          /* near-pure white */
+    --paper2: #f4f4f4;
+    --ink: #0d0d0d;            /* near-pure black */
+    --ink-soft: #3d3d3d;
+    --faint: #8a8a8a;
+    --rule: #e4e4e4;
+    --font: "Comfortaa", sans-serif;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
   body {
     background: var(--paper);
     color: var(--ink);
-    font-family: var(--mono);
+    font-family: var(--font);
     line-height: 1.55;
-    /* subtle paper grain */
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.025 0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
   }
-  ::selection { background: var(--mark); color: var(--paper); }
+  ::selection { background: var(--ink); color: var(--paper); }
   .wrap { max-width: 1020px; margin: 0 auto; padding: 0 28px; }
 
   /* masthead */
   header { padding: 30px 0 0; }
   .mast { display: flex; align-items: baseline; gap: 16px; border-bottom: 3px solid var(--ink); padding-bottom: 14px; }
   .mast .word {
-    font-family: var(--mono); font-size: 12px; letter-spacing: 0.28em;
+    font-family: var(--font); font-size: 12px; letter-spacing: 0.28em;
     text-transform: uppercase; color: var(--ink-soft);
   }
   .mast .sp { margin-left: auto; }
   .mast a { color: var(--ink-soft); text-decoration: none; border-bottom: 1px solid var(--rule); }
-  .mast a:hover { color: var(--mark); border-color: var(--mark); }
+  .mast a:hover { color: var(--ink); border-color: var(--ink); }
 
   /* hero */
   .hero { padding: 72px 0 60px; position: relative; }
   .hero h1 {
-    font-family: var(--display);
-    font-size: clamp(4.2rem, 13vw, 9.5rem);
-    font-weight: 700; line-height: 0.9; letter-spacing: 0.01em;
-    text-transform: uppercase;
+    font-size: clamp(4rem, 12vw, 8.5rem);
+    font-weight: 700; line-height: 1; letter-spacing: -0.02em;
+    text-transform: lowercase;
   }
-  .hero h1 .dot { color: var(--mark); }
+  .hero h1 .dot { color: var(--ink); }
   .hero .dek {
     margin-top: 26px; max-width: 52ch;
     font-size: clamp(0.95rem, 1.8vw, 1.1rem); color: var(--ink-soft);
@@ -62,9 +57,9 @@
   /* press stamp */
   .stamp {
     position: absolute; right: 24px; top: 66px;
-    width: 118px; height: 118px; border: 2px solid var(--mark);
-    border-radius: 50%; color: var(--mark);
-    font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.18em;
+    width: 118px; height: 118px; border: 2px solid var(--ink);
+    border-radius: 50%; color: var(--ink);
+    font-family: var(--font); font-size: 9.5px; letter-spacing: 0.18em;
     text-transform: uppercase; text-align: center;
     display: grid; place-items: center;
     transform: rotate(8deg);
@@ -78,7 +73,7 @@
     display: flex; align-items: baseline; gap: 18px;
     border-top: 3px solid var(--ink); border-bottom: 1px solid var(--ink);
     padding: 10px 0; margin-bottom: 4px;
-    font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.2em;
+    font-family: var(--font); font-size: 10.5px; letter-spacing: 0.2em;
     text-transform: uppercase; color: var(--ink-soft);
   }
   .ledgerhead .sp { margin-left: auto; }
@@ -96,47 +91,46 @@
   }
   @media (max-width: 820px) { .entry { grid-template-columns: 60px 1fr; } .meta { grid-column: 2; } }
   .entry:hover { background: var(--paper2); }
-  .entry:hover .name { color: var(--mark); }
+  .entry:hover .name { text-decoration: underline; text-underline-offset: 6px; text-decoration-thickness: 2px; }
   .entry .no {
-    font-family: var(--mono); font-size: 13px; color: var(--faint);
+    font-family: var(--font); font-size: 13px; color: var(--faint);
     padding-top: 14px;
   }
   .entry .no::before { content: "№"; margin-right: 6px; color: var(--rule); }
   .entry .name {
-    font-family: var(--display);
-    font-size: clamp(1.7rem, 4vw, 2.6rem); font-weight: 600;
-    line-height: 1.05; letter-spacing: 0.01em;
-    text-transform: uppercase;
+    font-size: clamp(1.6rem, 3.6vw, 2.3rem); font-weight: 700;
+    line-height: 1.15; letter-spacing: -0.01em;
+    text-transform: lowercase;
     transition: color .15s;
   }
   .entry .desc { margin-top: 10px; color: var(--ink-soft); font-size: 0.92rem; max-width: 58ch; }
   .entry .meta {
-    font-family: var(--mono); font-size: 11px; color: var(--faint);
+    font-family: var(--font); font-size: 11px; color: var(--faint);
     padding-top: 16px; line-height: 2;
     text-transform: uppercase; letter-spacing: 0.06em;
   }
   .entry .meta b { color: var(--ink); font-weight: 500; }
-  .entry .meta .live { color: var(--mark); }
+  .entry .meta .live { color: var(--ink); font-weight: 600; }
   .entry .arrow {
     position: absolute; right: 4px; bottom: 22px;
-    font-family: var(--mono); font-size: 13px; color: var(--rule);
+    font-family: var(--font); font-size: 13px; color: var(--rule);
     transition: color .15s, transform .18s;
   }
-  .entry:hover .arrow { color: var(--mark); transform: translateX(4px); }
+  .entry:hover .arrow { color: var(--ink); transform: translateX(4px); }
 
   /* rank one gets display treatment */
-  .entry.first .name { font-size: clamp(2.4rem, 6vw, 4rem); font-weight: 700; }
+  .entry.first .name { font-size: clamp(2.2rem, 5.5vw, 3.6rem); }
 
   /* colophon */
   footer { padding: 54px 0 70px; }
   .colophon {
     border-top: 3px solid var(--ink); padding-top: 18px;
     display: flex; gap: 24px; flex-wrap: wrap;
-    font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em;
+    font-family: var(--font); font-size: 11px; letter-spacing: 0.08em;
     text-transform: uppercase; color: var(--faint);
   }
   .colophon a { color: var(--ink-soft); text-decoration: none; border-bottom: 1px solid var(--rule); }
-  .colophon a:hover { color: var(--mark); border-color: var(--mark); }
+  .colophon a:hover { color: var(--ink); border-color: var(--ink); }
   .colophon .sp { margin-left: auto; }
 </style>
 </head>
@@ -154,7 +148,7 @@
 
 <main class="wrap">
   <div class="hero">
-    <h1>Advin<span class="dot">.</span></h1>
+    <h1>advin<span class="dot">.</span></h1>
     <p class="dek">An independent engineering workshop. Below: the <b>seven
     most-developed projects</b> on the bench — industrial spec data, robot
     emulators, device fleets — ranked by commits, the only metric that
@@ -253,7 +247,7 @@
     <span>© 2026 Advin</span>
     <a href="https://github.com/JimothyJohn">github.com/JimothyJohn</a>
     <a href="mailto:nick@advin.io">Correspondence</a>
-    <span class="sp">Set in Oswald &amp; IBM Plex Mono</span>
+    <span class="sp">Set in Comfortaa</span>
   </div>
 </footer>
 
