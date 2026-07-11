@@ -1,0 +1,47 @@
+name: Deploy advin.io
+
+# Prod path for the home page: master-only, OIDC-assumed role that can only
+# drive CloudFormation, sync the site bucket, and invalidate the CDN.
+# Resource permissions live in the CloudFormation service role
+# (deploy/github-oidc.yaml).
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - index.html
+      - deploy/template.yaml
+      - scripts/deploy_site.sh
+      - .github/workflows/deploy.yml
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: deploy-site
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      id-token: write
+      contents: read
+    env:
+      AWS_REGION: us-east-1
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+
+      - uses: aws-actions/configure-aws-credentials@254c19bd240aabef8777f48595e9d2d7b972184b # v6.2.1
+        with:
+          role-to-assume: ${{ vars.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: us-east-1
+
+      - name: Deploy stack, sync site, invalidate, smoke test
+        env:
+          CFN_ROLE_ARN: ${{ vars.AWS_CFN_EXEC_ROLE_ARN }}
+          DOMAIN_NAME: advin.io
+        run: ./scripts/deploy_site.sh

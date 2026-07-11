@@ -1,0 +1,162 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: >
+  CI/CD identity for the advin.io home page: a role GitHub Actions assumes via
+  the account's existing OIDC provider (scoped to one repo + branch), and a
+  CloudFormation service role that holds the resource permissions so the
+  GitHub role itself can only drive CloudFormation, sync the site bucket, and
+  invalidate the CDN cache.
+
+Parameters:
+  GitHubRepo:
+    Type: String
+    Default: JimothyJohn/home
+    Description: owner/repo allowed to assume the deploy role
+  GitHubBranch:
+    Type: String
+    Default: master
+    Description: Only pushes to this branch may deploy
+  StackName:
+    Type: String
+    Default: advin-home
+    Description: The site stack this identity is allowed to deploy
+  HostedZoneId:
+    Type: String
+    Default: Z039212425BG1MHVPYWDN
+    Description: Route53 zone (advin.io) the site stack may write DNS records into
+
+Resources:
+  CfnExecRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub ${StackName}-cfn-exec
+      Description: Assumed by CloudFormation to create/update the site stack's resources
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: cloudformation.amazonaws.com
+            Action: sts:AssumeRole
+            Condition:
+              StringEquals:
+                aws:SourceAccount: !Ref AWS::AccountId
+      Policies:
+        - PolicyName: site-stack-resources
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Sid: OwnSiteBucketOnly
+                Effect: Allow
+                Action:
+                  - s3:CreateBucket
+                  - s3:DeleteBucket
+                  - s3:ListBucket
+                  - s3:GetBucket*
+                  - s3:PutBucket*
+                  - s3:GetEncryptionConfiguration
+                  - s3:PutEncryptionConfiguration
+                Resource:
+                  - !Sub arn:aws:s3:::${StackName}-site-${AWS::AccountId}
+              # CloudFront distribution and OAC ids are opaque and minted at
+              # create time, so these cannot be resource-scoped ahead of
+              # creation; they are action-scoped to distribution/OAC lifecycle.
+              - Sid: CloudFrontLifecycleUnscopableIds
+                Effect: Allow
+                Action:
+                  - cloudfront:CreateDistribution
+                  - cloudfront:UpdateDistribution
+                  - cloudfront:DeleteDistribution
+                  - cloudfront:GetDistribution
+                  - cloudfront:GetDistributionConfig
+                  - cloudfront:TagResource
+                  - cloudfront:UntagResource
+                  - cloudfront:ListTagsForResource
+                  - cloudfront:CreateOriginAccessControl
+                  - cloudfront:UpdateOriginAccessControl
+                  - cloudfront:DeleteOriginAccessControl
+                  - cloudfront:GetOriginAccessControl
+                  - cloudfront:GetOriginAccessControlConfig
+                Resource: "*"
+              - Sid: DnsRecordsInOwnedZoneOnly
+                Effect: Allow
+                Action:
+                  - route53:ChangeResourceRecordSets
+                  - route53:GetHostedZone
+                  - route53:ListResourceRecordSets
+                Resource: !Sub arn:aws:route53:::hostedzone/${HostedZoneId}
+              - Sid: DnsChangePolling
+                Effect: Allow
+                Action: route53:GetChange
+                Resource: arn:aws:route53:::change/*
+
+  GitHubDeployRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub ${StackName}-github-deploy
+      Description: !Sub Assumed by GitHub Actions (${GitHubRepo}@${GitHubBranch}) to deploy the site
+      MaxSessionDuration: 3600
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Federated: !Sub arn:aws:iam::${AWS::AccountId}:oidc-provider/token.actions.githubusercontent.com
+            Action: sts:AssumeRoleWithWebIdentity
+            Condition:
+              StringEquals:
+                token.actions.githubusercontent.com:aud: sts.amazonaws.com
+                token.actions.githubusercontent.com:sub: !Sub repo:${GitHubRepo}:ref:refs/heads/${GitHubBranch}
+      Policies:
+        - PolicyName: deploy-site-only
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Sid: DriveSiteStack
+                Effect: Allow
+                Action:
+                  - cloudformation:CreateChangeSet
+                  - cloudformation:ExecuteChangeSet
+                  - cloudformation:DeleteChangeSet
+                  - cloudformation:DescribeChangeSet
+                  - cloudformation:DescribeStacks
+                  - cloudformation:DescribeStackEvents
+                  - cloudformation:GetTemplate
+                Resource:
+                  - !Sub arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/${StackName}/*
+              - Sid: TemplateSummaryIsReadOnly
+                Effect: Allow
+                Action: cloudformation:GetTemplateSummary
+                Resource: "*"
+              - Sid: HandResourceWorkToCfnRole
+                Effect: Allow
+                Action: iam:PassRole
+                Resource: !GetAtt CfnExecRole.Arn
+                Condition:
+                  StringEquals:
+                    iam:PassedToService: cloudformation.amazonaws.com
+              - Sid: SyncSiteFiles
+                Effect: Allow
+                Action:
+                  - s3:ListBucket
+                  - s3:GetObject
+                  - s3:PutObject
+                  - s3:DeleteObject
+                Resource:
+                  - !Sub arn:aws:s3:::${StackName}-site-${AWS::AccountId}
+                  - !Sub arn:aws:s3:::${StackName}-site-${AWS::AccountId}/*
+              # Invalidation targets one distribution, but its id is minted by
+              # the site stack at create time, so this cannot be pre-scoped.
+              - Sid: InvalidateCdnCacheUnscopableId
+                Effect: Allow
+                Action:
+                  - cloudfront:CreateInvalidation
+                  - cloudfront:GetInvalidation
+                Resource: !Sub arn:aws:cloudfront::${AWS::AccountId}:distribution/*
+
+Outputs:
+  GitHubDeployRoleArn:
+    Description: Set as repo variable AWS_DEPLOY_ROLE_ARN
+    Value: !GetAtt GitHubDeployRole.Arn
+  CfnExecRoleArn:
+    Description: Set as repo variable AWS_CFN_EXEC_ROLE_ARN
+    Value: !GetAtt CfnExecRole.Arn

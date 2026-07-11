@@ -3,289 +3,357 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Advin — Independent engineering. Selected work.</title>
-<meta name="description" content="Advin is an independent engineering workshop. Ten working projects — industrial spec data, robot emulators, embedded fleets — ranked by the work.">
+<title>advin.io — boutique AI research lab</title>
+<meta name="description" content="advin.io is a boutique AI research lab in Dallas, TX. A gallery of handcrafted projects — industrial spec data, robot emulators, embedded fleets — each linked to its site and source.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Oswald:wght@600&family=Open+Sans:wght@700&family=Chakra+Petch:wght@600&family=Big+Shoulders+Display:wght@700&family=IM+Fell+English:ital@0;1&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --paper: #f4efe6;
-    --paper2: #ece5d8;
-    --ink: #1c1a16;
-    --ink-soft: #57524a;
-    --faint: #8d867a;
-    --rule: #d8cfbf;
-    --mark: #b3382c;           /* press-stamp vermillion */
-    --serif: "Fraunces", serif;
-    --mono: "Spline Sans Mono", monospace;
+    --paper: #fcfcfc;          /* near-pure white */
+    --paper2: #f4f4f4;
+    --ink: #0d0d0d;            /* near-pure black */
+    --ink-soft: #3d3d3d;
+    --faint: #8a8a8a;
+    --rule: #e4e4e4;
+    --font: "Comfortaa", sans-serif;
+    --mono: "IBM Plex Mono", monospace;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
   body {
     background: var(--paper);
     color: var(--ink);
-    font-family: var(--serif);
-    line-height: 1.5;
-    /* subtle paper grain */
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.025 0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+    font-family: var(--font);
+    line-height: 1.55;
   }
-  ::selection { background: var(--mark); color: var(--paper); }
+  ::selection { background: var(--ink); color: var(--paper); }
   .wrap { max-width: 1020px; margin: 0 auto; padding: 0 28px; }
+  a { color: inherit; }
 
   /* masthead */
-  header { padding: 30px 0 0; }
-  .mast { display: flex; align-items: baseline; gap: 16px; border-bottom: 3px solid var(--ink); padding-bottom: 14px; }
-  .mast .word {
-    font-family: var(--mono); font-size: 12px; letter-spacing: 0.28em;
-    text-transform: uppercase; color: var(--ink-soft);
+  /* .wrap's margin/padding outrank bare element selectors, so the frame
+     spacing needs the compound selector; padding (not margin) so the
+     bottom gap survives at the end of the document */
+  header.wrap { padding-top: 56px; }
+  .mast {
+    display: flex; align-items: center; gap: 16px;
+    border-bottom: 3px solid var(--ink); padding-bottom: 14px;
   }
+  .mast .word { font-weight: 700; font-size: 17px; }
   .mast .sp { margin-left: auto; }
-  .mast a { color: var(--ink-soft); text-decoration: none; border-bottom: 1px solid var(--rule); }
-  .mast a:hover { color: var(--mark); border-color: var(--mark); }
+  .contact {
+    font-family: var(--font); font-weight: 600; font-size: 13px;
+    color: var(--ink); text-decoration: none;
+    border: 2px solid var(--ink); border-radius: 999px;
+    padding: 8px 22px;
+    transition: background .15s, color .15s;
+  }
+  .contact:hover { background: var(--ink); color: var(--paper); }
 
   /* hero */
-  .hero { padding: 72px 0 60px; position: relative; }
+  .hero { padding: 66px 0 54px; }
   .hero h1 {
-    font-size: clamp(4.2rem, 13vw, 9.5rem);
-    font-weight: 900; line-height: 0.9; letter-spacing: -0.02em;
-    font-variation-settings: "opsz" 144;
+    font-size: clamp(3.2rem, 10vw, 7rem);
+    font-weight: 700; line-height: 1; letter-spacing: -0.02em;
+    text-transform: lowercase;
   }
-  .hero h1 .dot { color: var(--mark); }
   .hero .dek {
-    margin-top: 26px; max-width: 52ch;
-    font-size: clamp(1.05rem, 2vw, 1.3rem); color: var(--ink-soft);
+    margin-top: 24px; max-width: 54ch;
+    font-size: clamp(0.95rem, 1.8vw, 1.1rem); color: var(--ink-soft);
     font-weight: 400;
   }
   .hero .dek b { color: var(--ink); font-weight: 600; }
-  /* press stamp */
-  .stamp {
-    position: absolute; right: 24px; top: 66px;
-    width: 118px; height: 118px; border: 2px solid var(--mark);
-    border-radius: 50%; color: var(--mark);
-    font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.18em;
-    text-transform: uppercase; text-align: center;
-    display: grid; place-items: center;
-    transform: rotate(8deg);
-    opacity: 0.85;
-  }
-  .stamp span { display: block; padding: 0 10px; }
-  @media (max-width: 720px) { .stamp { display: none; } }
+  .hero .dek a { color: var(--ink); font-weight: 600; text-decoration-thickness: 2px; text-underline-offset: 4px; }
 
-  /* ledger head */
-  .ledgerhead {
-    display: flex; align-items: baseline; gap: 18px;
-    border-top: 3px solid var(--ink); border-bottom: 1px solid var(--ink);
-    padding: 10px 0; margin-bottom: 4px;
-    font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.2em;
-    text-transform: uppercase; color: var(--ink-soft);
+  /* shard index: one tick of each project's soul, up in the hero */
+  .shard-index { display: flex; gap: 10px; margin-top: 30px; }
+  .shard-index a {
+    display: block; width: 26px; height: 4px; border-radius: 2px;
+    background: var(--c); opacity: 0.85;
+    transition: transform .18s ease, opacity .18s ease;
   }
-  .ledgerhead .sp { margin-left: auto; }
+  .shard-index a:hover, .shard-index a:focus-visible { transform: scaleY(2.2); opacity: 1; }
 
-  /* entries */
+  /* hero load sequence */
+  .rise { opacity: 0; transform: translateY(14px); animation: rise .7s ease forwards; }
+  .hero h1.rise { animation-delay: .05s; }
+  .hero .dek.rise { animation-delay: .18s; }
+  .shard-index.rise { animation-delay: .32s; }
+  @keyframes rise { to { opacity: 1; transform: none; } }
+
+  /* gallery */
+  .gallery-label {
+    border-top: 3px solid var(--ink);
+    padding: 12px 0; font-size: 13px; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: lowercase; color: var(--ink-soft);
+  }
   .entry {
     display: grid;
-    grid-template-columns: 86px 1fr 250px;
-    gap: 26px;
-    padding: 30px 0 28px;
-    border-bottom: 1px solid var(--rule);
-    text-decoration: none; color: inherit;
-    position: relative;
-    transition: background .18s ease;
+    grid-template-columns: minmax(0, 1fr) 250px;
+    gap: 28px; align-items: center;
+    /* each row wears its project's own page background at rest;
+       scripts/refresh_themes.py keeps --pbg synced to the live page */
+    background: var(--pbg, var(--paper));
+    border-top: 1px solid var(--rule);
+    border-left: 4px solid var(--pbar, var(--ink));
+    padding: 34px 26px 34px 22px;
+    scroll-margin-top: 40px;
   }
-  @media (max-width: 820px) { .entry { grid-template-columns: 60px 1fr; } .meta { grid-column: 2; } }
-  .entry:hover { background: var(--paper2); }
-  .entry:hover .name { color: var(--mark); }
-  .entry .no {
-    font-family: var(--mono); font-size: 13px; color: var(--faint);
-    padding-top: 14px;
-  }
-  .entry .no::before { content: "№"; margin-right: 6px; color: var(--rule); }
+  .entry .head { display: flex; align-items: center; gap: 14px; }
   .entry .name {
-    font-size: clamp(1.7rem, 4vw, 2.6rem); font-weight: 600;
-    line-height: 1.05; letter-spacing: -0.01em;
-    transition: color .15s;
+    font-family: var(--pfont, var(--font));
+    font-size: clamp(1.5rem, 3.4vw, 2.1rem); font-weight: 700;
+    line-height: 1.15; color: var(--pacc, var(--ink));
+    text-decoration: none;
   }
-  .entry .desc { margin-top: 10px; color: var(--ink-soft); font-size: 1.02rem; max-width: 58ch; }
-  .entry .meta {
-    font-family: var(--mono); font-size: 11px; color: var(--faint);
-    padding-top: 16px; line-height: 2;
-    text-transform: uppercase; letter-spacing: 0.06em;
+  .entry .name:hover { text-decoration: underline; text-underline-offset: 6px; text-decoration-thickness: 2px; }
+  .entry.caps .name { text-transform: uppercase; letter-spacing: 0.02em; }
+  .entry .src {
+    display: inline-flex; align-items: center;
+    color: var(--pink, var(--faint)); opacity: .7;
+    transition: opacity .15s;
   }
-  .entry .meta b { color: var(--ink); font-weight: 500; }
-  .entry .meta .live { color: var(--mark); }
-  .entry .arrow {
-    position: absolute; right: 4px; bottom: 22px;
-    font-family: var(--mono); font-size: 13px; color: var(--rule);
-    transition: color .15s, transform .18s;
+  .entry .src svg { width: 22px; height: 22px; fill: currentColor; }
+  .entry .src:hover { opacity: 1; }
+  .entry .desc {
+    margin-top: 10px; color: var(--pink, var(--ink-soft));
+    font-size: 0.95rem; max-width: 60ch;
   }
-  .entry:hover .arrow { color: var(--mark); transform: translateX(4px); }
 
-  /* rank one gets display treatment */
-  .entry.first .name { font-size: clamp(2.4rem, 6vw, 4rem); font-weight: 900; }
+  /* soul shards: one small fragment of each project's own world, cast
+     into the row's white space */
+  .shard {
+    justify-self: end;
+    width: max-content; max-width: 240px;
+    rotate: var(--tilt, -2deg);
+    animation: drift 7s ease-in-out infinite alternate;
+    animation-delay: var(--dd, 0s);
+    transition: rotate .25s ease, box-shadow .25s ease;
+    border-radius: 6px;
+    padding: 13px 16px;
+    font-size: 12px; line-height: 1.6;
+  }
+  .entry:hover .shard { rotate: 0deg; box-shadow: 0 10px 28px rgba(13,13,13,.14); }
+  @keyframes drift { from { translate: 0 -4px; } to { translate: 0 4px; } }
+  .shard .tag {
+    display: block; font-family: var(--mono); font-size: 9.5px;
+    letter-spacing: 0.14em; text-transform: uppercase; opacity: .65;
+    margin-bottom: 4px;
+  }
+  @media (max-width: 880px) {
+    .entry { grid-template-columns: 1fr; }
+    .shard { display: none; }
+  }
 
-  /* colophon */
-  footer { padding: 54px 0 70px; }
+  /* scroll reveal */
+  .reveal { opacity: 0; transform: translateY(18px); transition: opacity .65s ease, transform .65s ease; transition-delay: var(--rd, 0s); }
+  .reveal.in { opacity: 1; transform: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .rise, .reveal { animation: none; transition: none; opacity: 1; transform: none; }
+    .shard { animation: none; }
+    html { scroll-behavior: auto; }
+  }
+
+  /* footer */
+  footer.wrap { padding-top: 54px; padding-bottom: 96px; }
   .colophon {
-    border-top: 3px solid var(--ink); padding-top: 18px;
-    display: flex; gap: 24px; flex-wrap: wrap;
-    font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em;
-    text-transform: uppercase; color: var(--faint);
+    border-top: 3px solid var(--ink); padding-top: 22px;
+    text-align: center;
+    font-size: 12px; letter-spacing: 0.08em; color: var(--faint);
   }
-  .colophon a { color: var(--ink-soft); text-decoration: none; border-bottom: 1px solid var(--rule); }
-  .colophon a:hover { color: var(--mark); border-color: var(--mark); }
-  .colophon .sp { margin-left: auto; }
 </style>
 </head>
 <body>
 
 <header class="wrap">
   <div class="mast">
-    <span class="word">Advin</span>
-    <span class="word">·</span>
-    <span class="word">Field Notes &amp; Working Projects</span>
+    <span class="word">advin.io</span>
     <span class="sp"></span>
-    <span class="word"><a href="mailto:nick@advin.io">nick@advin.io</a></span>
+    <a class="contact" href="mailto:nick@advin.io">contact</a>
   </div>
 </header>
 
 <main class="wrap">
   <div class="hero">
-    <h1>Advin<span class="dot">.</span></h1>
-    <p class="dek">An independent engineering workshop. Below: the <b>ten
-    most-developed projects</b> on the bench — industrial spec data, robot
-    emulators, device fleets — ranked by commits, the only metric that
-    doesn't flatter.</p>
-    <div class="stamp"><span>RANKED BY<br>COMMITS<br>— 2026 —</span></div>
+    <h1 class="rise">advin.io</h1>
+    <p class="dek rise">A <b>boutique AI research lab</b> in <b>Dallas, TX</b>.
+    Handcrafted systems for industrial intelligence — spec data, robot
+    emulators, device fleets — built in the metroplex, with deployed models
+    running live on
+    <a href="https://replicate.com/jimothyjohn">Replicate</a>.</p>
+    <nav class="shard-index rise" aria-label="Projects">
+      <a href="#specodex" title="specodex" style="--c:#A88A1C"></a>
+      <a href="#amr-emulator" title="amr emulator" style="--c:#1a76bc"></a>
+      <a href="#supervictor" title="supervictor" style="--c:#f97316"></a>
+      <a href="#userver" title="uServer" style="--c:#0d6efd"></a>
+      <a href="#tensor-factory" title="tensor factory" style="--c:#e1261c"></a>
+      <a href="#ophanim" title="ophanim" style="--c:#050505"></a>
+      <a href="#colmapper" title="colmapper" style="--c:#8a8a8a"></a>
+    </nav>
   </div>
 
-  <div class="ledgerhead">
-    <span>№</span><span>Project</span><span class="sp"></span><span>Record</span>
-  </div>
+  <div class="gallery-label">project gallery</div>
 
-  <a class="entry first" href="https://www.specodex.com">
-    <div class="no">01</div>
+  <div class="entry caps reveal" id="specodex" style="--pfont:'Oswald',sans-serif; --pbar:#A88A1C; --pbg:#E8E2C9; --pink:#3A3A2E; --pacc:#7A1F1F; --tilt:-2.5deg;">
     <div>
-      <div class="name">Specodex</div>
+      <div class="head">
+        <a class="name" href="https://www.specodex.com">Specodex</a>
+        <a class="src" href="https://github.com/JimothyJohn/specodex" aria-label="Specodex source on GitHub">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+        </a>
+      </div>
       <p class="desc">Cross-vendor industrial spec data — motors, drives,
       gearheads, contactors, robot arms — indexed, filtered, and exportable.
       No marketing copy on the rows, no request-a-quote gates.</p>
     </div>
-    <div class="meta">Python · 629 commits<br><b>active 2026</b> · <span class="live">live at specodex.com</span></div>
-    <span class="arrow">→</span>
-  </a>
+    <div class="shard" aria-hidden="true" style="background:#E8E2C9; border:1px solid #B8AC85; color:#2A1F12; --dd:.0s;">
+      <span class="tag" style="color:#3A3A2E">spec row · motor</span>
+      <span style="font-family:'Oswald',sans-serif; font-size:15px; letter-spacing:.04em;">IE3 · 4.0 kW · 400 V</span>
+    </div>
+  </div>
 
-  <a class="entry" href="https://amr-emulator.com">
-    <div class="no">02</div>
+  <div class="entry reveal" id="amr-emulator" style="--pfont:'Open Sans',sans-serif; --pbar:#1a76bc; --pbg:#effafe; --pink:#0c0931; --pacc:#1a76bc; --tilt:2deg;">
     <div>
-      <div class="name">AMR Emulator</div>
+      <div class="head">
+        <a class="name" href="https://amr-emulator.com">AMR Emulator</a>
+        <a class="src" href="https://github.com/JimothyJohn/amr-emulator" aria-label="AMR Emulator source on GitHub">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+        </a>
+      </div>
       <p class="desc">Spec-faithful emulators of autonomous-mobile-robot REST
       APIs — MiR today, more brands coming. Develop and test fleet software
       without a robot on the floor.</p>
     </div>
-    <div class="meta">Python · 145 commits<br><b>active 2026</b> · <span class="live">live at amr-emulator.com</span></div>
-    <span class="arrow">→</span>
-  </a>
-
-  <a class="entry" href="https://github.com/JimothyJohn/uServer">
-    <div class="no">03</div>
-    <div>
-      <div class="name">uServer</div>
-      <p class="desc">A microserver template in C++ — the small, sharp
-      starting point for services that have to fit where full frameworks
-      don't.</p>
+    <div class="shard" aria-hidden="true" style="background:#f6f9fc; border-left:3px solid #1a76bc; border-radius:4px; font-family:var(--mono); color:#105aa8; --dd:.9s;">
+      <span class="tag" style="color:#565b74">GET /status → 200</span>
+      <span>"battery_percent": 87</span>
     </div>
-    <div class="meta">C++ · 81 commits<br><b>2021</b> · source</div>
-    <span class="arrow">→</span>
-  </a>
+  </div>
 
-  <a class="entry" href="https://jimothyjohn.github.io/tensor-factory/">
-    <div class="no">04</div>
+  <div class="entry reveal" id="supervictor" style="--pfont:'Chakra Petch',sans-serif; --pbar:#f97316; --pbg:#0e0e10; --pink:#e4e4e7; --pacc:#f97316; --tilt:-2deg;">
     <div>
-      <div class="name">Tensor Factory</div>
-      <p class="desc">Bootstrap efficient machine-learning models — tooling
-      for getting small, fast models into production shape.</p>
-    </div>
-    <div class="meta">Python · 63 commits<br><b>active 2026</b> · docs</div>
-    <span class="arrow">→</span>
-  </a>
-
-  <a class="entry" href="https://jimothyjohn.github.io/supervictor/">
-    <div class="no">05</div>
-    <div>
-      <div class="name">Supervictor</div>
+      <div class="head">
+        <a class="name" href="https://jimothyjohn.github.io/supervictor/">Supervictor</a>
+        <a class="src" href="https://github.com/JimothyJohn/supervictor" aria-label="Supervictor source on GitHub">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+        </a>
+      </div>
       <p class="desc">Fleet operations for connected hardware, all in Rust —
       per-device mTLS identity, a live dashboard, firmware tracking. From
       ESP32 register to cloud database in one language.</p>
     </div>
-    <div class="meta">Rust · 55 commits<br><b>active 2026</b> · <span class="live">live demo</span></div>
-    <span class="arrow">→</span>
-  </a>
-
-  <a class="entry" href="https://github.com/JimothyJohn/uplink">
-    <div class="no">06</div>
-    <div>
-      <div class="name">Uplink</div>
-      <p class="desc">Monitor machine states with a microcontroller — the
-      original field experiment that grew into the fleet work above.</p>
+    <div class="shard" aria-hidden="true" style="background:#18181b; border:1px solid #3f3f46; font-family:'Chakra Petch',sans-serif; --dd:.4s;">
+      <span class="tag" style="color:#8b8b93">fleet · live</span>
+      <span style="color:#f97316; font-weight:600;">● 12/12 online</span>
+      <span style="display:block; color:#8b8b93; font-family:var(--mono); font-size:11px;">fw 2.1.3 · mTLS ok</span>
     </div>
-    <div class="meta">C++ · 19 commits<br><b>2023</b> · source</div>
-    <span class="arrow">→</span>
-  </a>
+  </div>
 
-  <a class="entry" href="https://jimothyjohn.github.io/ophanim/">
-    <div class="no">07</div>
+  <div class="entry reveal" id="userver" style="--pfont:-apple-system,'Helvetica Neue',Arial,sans-serif; --pbar:#0d6efd; --pbg:#f8f9fa; --pink:#212529; --pacc:#0d6efd; --tilt:1.8deg;">
     <div>
-      <div class="name">Ophanim</div>
+      <div class="head">
+        <a class="name" href="https://jimothyjohn.github.io/uServer/">uServer</a>
+        <a class="src" href="https://github.com/JimothyJohn/uServer" aria-label="uServer source on GitHub">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+        </a>
+      </div>
+      <p class="desc">A microserver template in C++ — the small, sharp starting
+      point for services that have to fit where full frameworks don't.</p>
+    </div>
+    <div class="shard" aria-hidden="true" style="background:#f8f9fa; border:1px solid #dee2e6; font-family:var(--mono); color:#212529; --dd:1.3s;">
+      <span class="tag" style="color:#6c757d">esp32 · 42 kB</span>
+      <span>GET /health <span style="color:#0d6efd; font-weight:600;">→ 200 OK</span></span>
+    </div>
+  </div>
+
+  <div class="entry caps reveal" id="tensor-factory" style="--pfont:'Big Shoulders Display',sans-serif; --pbar:#e1261c; --pbg:#e9e7e1; --pink:#15140f; --pacc:#e1261c; --tilt:-5deg;">
+    <div>
+      <div class="head">
+        <a class="name" href="https://jimothyjohn.github.io/tensor-factory/">Tensor Factory</a>
+        <a class="src" href="https://github.com/JimothyJohn/tensor-factory" aria-label="Tensor Factory source on GitHub">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+        </a>
+      </div>
+      <p class="desc">Bootstrap efficient machine-learning models — tooling
+      for getting small, fast models into production shape.</p>
+    </div>
+    <div class="shard" aria-hidden="true" style="background:#e9e7e1; border:3px solid #e1261c; border-radius:4px; color:#e1261c; text-align:center; --dd:.6s;">
+      <span style="font-family:'Big Shoulders Display',sans-serif; font-weight:700; font-size:19px; letter-spacing:.12em; text-transform:uppercase;">Tiny Detector</span>
+      <span class="tag" style="color:#847f74; margin:2px 0 0;">a prompt becomes a model</span>
+    </div>
+  </div>
+
+  <div class="entry reveal" id="ophanim" style="--pfont:'IM Fell English',serif; --pbar:#050505; --pbg:#050505; --pink:#a0a0a0; --pacc:#ffffff; --tilt:2.5deg;">
+    <div>
+      <div class="head">
+        <a class="name" href="https://jimothyjohn.github.io/ophanim/">Ophanim</a>
+        <a class="src" href="https://github.com/JimothyJohn/ophanim" aria-label="Ophanim source on GitHub">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+        </a>
+      </div>
       <p class="desc">A worked example of serverless CPU inference — an
       endpoint pattern for running models without keeping a GPU warm.</p>
     </div>
-    <div class="meta">Python · 19 commits<br><b>active 2026</b> · docs</div>
-    <span class="arrow">→</span>
-  </a>
-
-  <a class="entry" href="https://jimothyjohn.github.io/big-canyon-band-page/">
-    <div class="no">08</div>
-    <div>
-      <div class="name">Big Canyon</div>
-      <p class="desc">Landing page for the Big Canyon band — proof the
-      workshop ships things with a backbeat, too.</p>
+    <div class="shard" aria-hidden="true" style="background:#050505; border:1px solid #333; color:#e0e0e0; --dd:1.1s;">
+      <span class="tag" style="color:#a0a0a0">cold start · 0 gpu</span>
+      <span style="font-family:'IM Fell English',serif; font-style:italic; font-size:14px;">the wheel, watching.</span>
     </div>
-    <div class="meta">Shell · 18 commits<br><b>2025</b> · <span class="live">live</span></div>
-    <span class="arrow">→</span>
-  </a>
+  </div>
 
-  <a class="entry" href="https://github.com/JimothyJohn/uptime-visuals">
-    <div class="no">09</div>
+  <div class="entry reveal" id="colmapper" style="--pbar:#24292f; --pbg:#f6f8fa; --pink:#24292f; --pacc:#24292f; --tilt:-2deg;">
     <div>
-      <div class="name">Uptime Visuals</div>
-      <p class="desc">Graphics experiments in Flutter — machine-uptime data
-      rendered as something a plant floor actually wants to look at.</p>
-    </div>
-    <div class="meta">Dart · 10 commits<br><b>2024</b> · source</div>
-    <span class="arrow">→</span>
-  </a>
-
-  <a class="entry" href="https://github.com/JimothyJohn/colmapper">
-    <div class="no">10</div>
-    <div>
-      <div class="name">Colmapper</div>
+      <div class="head">
+        <a class="name" href="https://github.com/JimothyJohn/colmapper">Colmapper</a>
+        <a class="src" href="https://github.com/JimothyJohn/colmapper" aria-label="Colmapper source on GitHub">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+        </a>
+      </div>
       <p class="desc">An endpoint that extracts COLMAP photogrammetry data
       from a plain video — 3D reconstruction as a service call.</p>
     </div>
-    <div class="meta">Python · 9 commits · ★ 6<br><b>2025</b> · source</div>
-    <span class="arrow">→</span>
-  </a>
+    <div class="shard" aria-hidden="true" style="background:#f6f8fa; border:1px solid #d0d7de; --dd:.2s;">
+      <svg width="120" height="46" viewBox="0 0 120 46" aria-hidden="true" style="display:block;">
+        <g fill="#24292f">
+          <circle cx="12" cy="30" r="1.6"/><circle cx="22" cy="18" r="1.3"/><circle cx="30" cy="36" r="1.8"/>
+          <circle cx="38" cy="12" r="1.2"/><circle cx="45" cy="24" r="1.7"/><circle cx="54" cy="8" r="1.1"/>
+          <circle cx="60" cy="31" r="1.9"/><circle cx="67" cy="17" r="1.3"/><circle cx="76" cy="27" r="1.5"/>
+          <circle cx="84" cy="10" r="1.1"/><circle cx="90" cy="35" r="1.6"/><circle cx="98" cy="20" r="1.4"/>
+          <circle cx="106" cy="29" r="1.2"/><circle cx="111" cy="14" r="1.0"/><circle cx="50" cy="40" r="1.3"/>
+          <circle cx="72" cy="40" r="1.1"/><circle cx="18" cy="8" r="1.0"/><circle cx="95" cy="6" r="0.9"/>
+        </g>
+      </svg>
+      <span class="tag" style="color:#57606a; margin-top:6px;">1,284 pts · one video</span>
+    </div>
+  </div>
 </main>
 
 <footer class="wrap">
-  <div class="colophon">
-    <span>© 2026 Advin</span>
-    <a href="https://github.com/JimothyJohn">github.com/JimothyJohn</a>
-    <a href="mailto:nick@advin.io">Correspondence</a>
-    <span class="sp">Set in Fraunces &amp; Spline Sans Mono</span>
-  </div>
+  <div class="colophon">© 2026 advin.io · Dallas, TX</div>
 </footer>
+
+<script>
+// Scroll reveal for gallery rows; staggered per batch, reduced-motion safe.
+(function () {
+  var rows = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window) ||
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    rows.forEach(function (el) { el.classList.add('in'); });
+    return;
+  }
+  var seen = 0;
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      e.target.style.setProperty('--rd', (seen++ % 3) * 90 + 'ms');
+      e.target.classList.add('in');
+      io.unobserve(e.target);
+    });
+  }, { threshold: 0.15 });
+  rows.forEach(function (el) { io.observe(el); });
+})();
+</script>
 
 </body>
 </html>
