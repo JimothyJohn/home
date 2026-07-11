@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Advin — Independent engineering. Selected work.</title>
-<meta name="description" content="Advin is an independent engineering workshop. Seven working projects — industrial spec data, robot emulators, embedded fleets — ranked by the work.">
+<title>advin.io — boutique AI research lab</title>
+<meta name="description" content="advin.io is a boutique AI research lab. A gallery of handcrafted projects — industrial spec data, robot emulators, embedded fleets — each linked to its site and source.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Oswald:wght@600&family=Open+Sans:wght@700&family=Chakra+Petch:wght@600&family=Big+Shoulders+Display:wght@700&family=IM+Fell+English&display=swap" rel="stylesheet">
 <style>
   :root {
     --paper: #fcfcfc;          /* near-pure white */
@@ -28,227 +28,192 @@
   }
   ::selection { background: var(--ink); color: var(--paper); }
   .wrap { max-width: 1020px; margin: 0 auto; padding: 0 28px; }
+  a { color: inherit; }
 
   /* masthead */
   header { padding: 30px 0 0; }
-  .mast { display: flex; align-items: baseline; gap: 16px; border-bottom: 3px solid var(--ink); padding-bottom: 14px; }
-  .mast .word {
-    font-family: var(--font); font-size: 12px; letter-spacing: 0.28em;
-    text-transform: uppercase; color: var(--ink-soft);
+  .mast {
+    display: flex; align-items: center; gap: 16px;
+    border-bottom: 3px solid var(--ink); padding-bottom: 14px;
   }
+  .mast .word { font-weight: 700; font-size: 17px; }
   .mast .sp { margin-left: auto; }
-  .mast a { color: var(--ink-soft); text-decoration: none; border-bottom: 1px solid var(--rule); }
-  .mast a:hover { color: var(--ink); border-color: var(--ink); }
+  .contact {
+    font-family: var(--font); font-weight: 600; font-size: 13px;
+    color: var(--ink); text-decoration: none;
+    border: 2px solid var(--ink); border-radius: 999px;
+    padding: 8px 22px;
+    transition: background .15s, color .15s;
+  }
+  .contact:hover { background: var(--ink); color: var(--paper); }
 
   /* hero */
-  .hero { padding: 72px 0 60px; position: relative; }
+  .hero { padding: 66px 0 54px; }
   .hero h1 {
-    font-size: clamp(4rem, 12vw, 8.5rem);
+    font-size: clamp(3.2rem, 10vw, 7rem);
     font-weight: 700; line-height: 1; letter-spacing: -0.02em;
     text-transform: lowercase;
   }
-  .hero h1 .dot { color: var(--ink); }
   .hero .dek {
-    margin-top: 26px; max-width: 52ch;
+    margin-top: 24px; max-width: 54ch;
     font-size: clamp(0.95rem, 1.8vw, 1.1rem); color: var(--ink-soft);
     font-weight: 400;
   }
   .hero .dek b { color: var(--ink); font-weight: 600; }
-  /* press stamp */
-  .stamp {
-    position: absolute; right: 24px; top: 66px;
-    width: 118px; height: 118px; border: 2px solid var(--ink);
-    border-radius: 50%; color: var(--ink);
-    font-family: var(--font); font-size: 9.5px; letter-spacing: 0.18em;
-    text-transform: uppercase; text-align: center;
-    display: grid; place-items: center;
-    transform: rotate(8deg);
-    opacity: 0.85;
-  }
-  .stamp span { display: block; padding: 0 10px; }
-  @media (max-width: 720px) { .stamp { display: none; } }
+  .hero .dek a { color: var(--ink); font-weight: 600; text-decoration-thickness: 2px; text-underline-offset: 4px; }
 
-  /* ledger head */
-  .ledgerhead {
-    display: flex; align-items: baseline; gap: 18px;
-    border-top: 3px solid var(--ink); border-bottom: 1px solid var(--ink);
-    padding: 10px 0; margin-bottom: 4px;
-    font-family: var(--font); font-size: 10.5px; letter-spacing: 0.2em;
-    text-transform: uppercase; color: var(--ink-soft);
+  /* gallery */
+  .gallery-label {
+    border-top: 3px solid var(--ink);
+    padding: 12px 0; font-size: 13px; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: lowercase; color: var(--ink-soft);
   }
-  .ledgerhead .sp { margin-left: auto; }
-
-  /* entries */
   .entry {
-    display: grid;
-    grid-template-columns: 86px 1fr 250px;
-    gap: 26px;
-    padding: 30px 0 28px;
-    border-bottom: 1px solid var(--rule);
-    text-decoration: none; color: inherit;
-    position: relative;
+    display: block;
+    border-top: 1px solid var(--rule);
+    border-left: 4px solid var(--pbar, var(--ink));
+    padding: 30px 26px 30px 22px;
     transition: background .18s ease;
   }
-  @media (max-width: 820px) { .entry { grid-template-columns: 60px 1fr; } .meta { grid-column: 2; } }
-  .entry:hover { background: var(--paper2); }
-  .entry:hover .name { text-decoration: underline; text-underline-offset: 6px; text-decoration-thickness: 2px; }
-  .entry .no {
-    font-family: var(--font); font-size: 13px; color: var(--faint);
-    padding-top: 14px;
-  }
-  .entry .no::before { content: "№"; margin-right: 6px; color: var(--rule); }
+  .entry:hover { background: var(--pbg, var(--paper2)); }
+  .entry:hover .desc { color: var(--pink, var(--ink-soft)); }
+  .entry:hover .name { color: var(--pacc, var(--ink)); }
+  .entry .head { display: flex; align-items: center; gap: 14px; }
   .entry .name {
-    font-size: clamp(1.6rem, 3.6vw, 2.3rem); font-weight: 700;
-    line-height: 1.15; letter-spacing: -0.01em;
-    text-transform: lowercase;
+    font-family: var(--pfont, var(--font));
+    font-size: clamp(1.5rem, 3.4vw, 2.1rem); font-weight: 700;
+    line-height: 1.15; color: var(--ink);
+    text-decoration: none;
     transition: color .15s;
   }
-  .entry .desc { margin-top: 10px; color: var(--ink-soft); font-size: 0.92rem; max-width: 58ch; }
-  .entry .meta {
-    font-family: var(--font); font-size: 11px; color: var(--faint);
-    padding-top: 16px; line-height: 2;
-    text-transform: uppercase; letter-spacing: 0.06em;
+  .entry .name:hover { text-decoration: underline; text-underline-offset: 6px; text-decoration-thickness: 2px; }
+  .entry.caps .name { text-transform: uppercase; letter-spacing: 0.02em; }
+  .entry .src {
+    display: inline-flex; align-items: center;
+    color: var(--faint); transition: color .15s;
   }
-  .entry .meta b { color: var(--ink); font-weight: 500; }
-  .entry .meta .live { color: var(--ink); font-weight: 600; }
-  .entry .arrow {
-    position: absolute; right: 4px; bottom: 22px;
-    font-family: var(--font); font-size: 13px; color: var(--rule);
-    transition: color .15s, transform .18s;
+  .entry .src svg { width: 22px; height: 22px; fill: currentColor; }
+  .entry .src:hover { color: var(--pacc, var(--ink)); }
+  .entry:hover .src { color: var(--pink, var(--faint)); }
+  .entry .desc {
+    margin-top: 10px; color: var(--ink-soft);
+    font-size: 0.95rem; max-width: 60ch;
+    transition: color .15s;
   }
-  .entry:hover .arrow { color: var(--ink); transform: translateX(4px); }
 
-  /* rank one gets display treatment */
-  .entry.first .name { font-size: clamp(2.2rem, 5.5vw, 3.6rem); }
-
-  /* colophon */
-  footer { padding: 54px 0 70px; }
+  /* footer */
+  footer { padding: 54px 0 60px; }
   .colophon {
-    border-top: 3px solid var(--ink); padding-top: 18px;
-    display: flex; gap: 24px; flex-wrap: wrap;
-    font-family: var(--font); font-size: 11px; letter-spacing: 0.08em;
-    text-transform: uppercase; color: var(--faint);
+    border-top: 3px solid var(--ink); padding-top: 22px;
+    text-align: center;
+    font-size: 12px; letter-spacing: 0.08em; color: var(--faint);
   }
-  .colophon a { color: var(--ink-soft); text-decoration: none; border-bottom: 1px solid var(--rule); }
-  .colophon a:hover { color: var(--ink); border-color: var(--ink); }
-  .colophon .sp { margin-left: auto; }
 </style>
 </head>
 <body>
 
 <header class="wrap">
   <div class="mast">
-    <span class="word">Advin</span>
-    <span class="word">·</span>
-    <span class="word">Field Notes &amp; Working Projects</span>
+    <span class="word">advin.io</span>
     <span class="sp"></span>
-    <span class="word"><a href="mailto:nick@advin.io">nick@advin.io</a></span>
+    <a class="contact" href="mailto:nick@advin.io">contact</a>
   </div>
 </header>
 
 <main class="wrap">
   <div class="hero">
-    <h1>advin<span class="dot">.</span></h1>
-    <p class="dek">An independent engineering workshop. Below: the <b>seven
-    most-developed projects</b> on the bench — industrial spec data, robot
-    emulators, device fleets — ranked by commits, the only metric that
-    doesn't flatter.</p>
-    <div class="stamp"><span>RANKED BY<br>COMMITS<br>— 2026 —</span></div>
+    <h1>advin.io</h1>
+    <p class="dek">A <b>boutique AI research lab</b>. Handcrafted systems for
+    industrial intelligence — spec data, robot emulators, device fleets —
+    with deployed models running live on
+    <a href="https://replicate.com/jimothyjohn">Replicate</a>.</p>
   </div>
 
-  <div class="ledgerhead">
-    <span>№</span><span>Project</span><span class="sp"></span><span>Record</span>
+  <div class="gallery-label">project gallery</div>
+
+  <div class="entry caps" style="--pfont:'Oswald',sans-serif; --pbar:#A88A1C; --pbg:#E8E2C9; --pink:#3A3A2E; --pacc:#7A1F1F;">
+    <div class="head">
+      <a class="name" href="https://www.specodex.com">Specodex</a>
+      <a class="src" href="https://github.com/JimothyJohn/specodex" aria-label="Specodex source on GitHub">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+      </a>
+    </div>
+    <p class="desc">Cross-vendor industrial spec data — motors, drives,
+    gearheads, contactors, robot arms — indexed, filtered, and exportable.
+    No marketing copy on the rows, no request-a-quote gates.</p>
   </div>
 
-  <a class="entry first" href="https://www.specodex.com">
-    <div class="no">01</div>
-    <div>
-      <div class="name">Specodex</div>
-      <p class="desc">Cross-vendor industrial spec data — motors, drives,
-      gearheads, contactors, robot arms — indexed, filtered, and exportable.
-      No marketing copy on the rows, no request-a-quote gates.</p>
+  <div class="entry" style="--pfont:'Open Sans',sans-serif; --pbar:#1a76bc; --pbg:#effafe; --pink:#0c0931; --pacc:#1a76bc;">
+    <div class="head">
+      <a class="name" href="https://amr-emulator.com">AMR Emulator</a>
+      <a class="src" href="https://github.com/JimothyJohn/amr-emulator" aria-label="AMR Emulator source on GitHub">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+      </a>
     </div>
-    <div class="meta">Python · 629 commits<br><b>active 2026</b> · <span class="live">live at specodex.com</span></div>
-    <span class="arrow">→</span>
-  </a>
+    <p class="desc">Spec-faithful emulators of autonomous-mobile-robot REST
+    APIs — MiR today, more brands coming. Develop and test fleet software
+    without a robot on the floor.</p>
+  </div>
 
-  <a class="entry" href="https://amr-emulator.com">
-    <div class="no">02</div>
-    <div>
-      <div class="name">AMR Emulator</div>
-      <p class="desc">Spec-faithful emulators of autonomous-mobile-robot REST
-      APIs — MiR today, more brands coming. Develop and test fleet software
-      without a robot on the floor.</p>
+  <div class="entry" style="--pfont:'Chakra Petch',sans-serif; --pbar:#f97316; --pbg:#0e0e10; --pink:#e4e4e7; --pacc:#f97316;">
+    <div class="head">
+      <a class="name" href="https://jimothyjohn.github.io/supervictor/">Supervictor</a>
+      <a class="src" href="https://github.com/JimothyJohn/supervictor" aria-label="Supervictor source on GitHub">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+      </a>
     </div>
-    <div class="meta">Python · 145 commits<br><b>active 2026</b> · <span class="live">live at amr-emulator.com</span></div>
-    <span class="arrow">→</span>
-  </a>
+    <p class="desc">Fleet operations for connected hardware, all in Rust —
+    per-device mTLS identity, a live dashboard, firmware tracking. From
+    ESP32 register to cloud database in one language.</p>
+  </div>
 
-  <a class="entry" href="https://jimothyjohn.github.io/supervictor/">
-    <div class="no">03</div>
-    <div>
-      <div class="name">Supervictor</div>
-      <p class="desc">Fleet operations for connected hardware, all in Rust —
-      per-device mTLS identity, a live dashboard, firmware tracking. From
-      ESP32 register to cloud database in one language.</p>
+  <div class="entry" style="--pfont:-apple-system,'Helvetica Neue',Arial,sans-serif; --pbar:#0d6efd; --pbg:#f8f9fa; --pink:#212529; --pacc:#0d6efd;">
+    <div class="head">
+      <a class="name" href="https://jimothyjohn.github.io/uServer/">uServer</a>
+      <a class="src" href="https://github.com/JimothyJohn/uServer" aria-label="uServer source on GitHub">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+      </a>
     </div>
-    <div class="meta">Rust · 93 commits<br><b>active 2026</b> · <span class="live">live demo</span></div>
-    <span class="arrow">→</span>
-  </a>
+    <p class="desc">A microserver template in C++ — the small, sharp starting
+    point for services that have to fit where full frameworks don't.</p>
+  </div>
 
-  <a class="entry" href="https://jimothyjohn.github.io/uServer/">
-    <div class="no">04</div>
-    <div>
-      <div class="name">uServer</div>
-      <p class="desc">A microserver template in C++ — the small, sharp
-      starting point for services that have to fit where full frameworks
-      don't.</p>
+  <div class="entry caps" style="--pfont:'Big Shoulders Display',sans-serif; --pbar:#e1261c; --pbg:#e9e7e1; --pink:#15140f; --pacc:#e1261c;">
+    <div class="head">
+      <a class="name" href="https://jimothyjohn.github.io/tensor-factory/">Tensor Factory</a>
+      <a class="src" href="https://github.com/JimothyJohn/tensor-factory" aria-label="Tensor Factory source on GitHub">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+      </a>
     </div>
-    <div class="meta">C++ · 81 commits<br><b>2021</b> · docs</div>
-    <span class="arrow">→</span>
-  </a>
+    <p class="desc">Bootstrap efficient machine-learning models — tooling
+    for getting small, fast models into production shape.</p>
+  </div>
 
-  <a class="entry" href="https://jimothyjohn.github.io/tensor-factory/">
-    <div class="no">05</div>
-    <div>
-      <div class="name">Tensor Factory</div>
-      <p class="desc">Bootstrap efficient machine-learning models — tooling
-      for getting small, fast models into production shape.</p>
+  <div class="entry" style="--pfont:'IM Fell English',serif; --pbar:#050505; --pbg:#050505; --pink:#a0a0a0; --pacc:#ffffff;">
+    <div class="head">
+      <a class="name" href="https://jimothyjohn.github.io/ophanim/">Ophanim</a>
+      <a class="src" href="https://github.com/JimothyJohn/ophanim" aria-label="Ophanim source on GitHub">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+      </a>
     </div>
-    <div class="meta">Python · 63 commits<br><b>active 2026</b> · docs</div>
-    <span class="arrow">→</span>
-  </a>
+    <p class="desc">A worked example of serverless CPU inference — an
+    endpoint pattern for running models without keeping a GPU warm.</p>
+  </div>
 
-  <a class="entry" href="https://jimothyjohn.github.io/ophanim/">
-    <div class="no">06</div>
-    <div>
-      <div class="name">Ophanim</div>
-      <p class="desc">A worked example of serverless CPU inference — an
-      endpoint pattern for running models without keeping a GPU warm.</p>
+  <div class="entry" style="--pbar:#24292f; --pbg:#f6f8fa; --pink:#24292f; --pacc:#24292f;">
+    <div class="head">
+      <a class="name" href="https://github.com/JimothyJohn/colmapper">Colmapper</a>
+      <a class="src" href="https://github.com/JimothyJohn/colmapper" aria-label="Colmapper source on GitHub">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+      </a>
     </div>
-    <div class="meta">Python · 19 commits<br><b>active 2026</b> · docs</div>
-    <span class="arrow">→</span>
-  </a>
-
-  <a class="entry" href="https://github.com/JimothyJohn/colmapper">
-    <div class="no">07</div>
-    <div>
-      <div class="name">Colmapper</div>
-      <p class="desc">An endpoint that extracts COLMAP photogrammetry data
-      from a plain video — 3D reconstruction as a service call.</p>
-    </div>
-    <div class="meta">Python · 9 commits · ★ 6<br><b>2025</b> · source</div>
-    <span class="arrow">→</span>
-  </a>
+    <p class="desc">An endpoint that extracts COLMAP photogrammetry data
+    from a plain video — 3D reconstruction as a service call.</p>
+  </div>
 </main>
 
 <footer class="wrap">
-  <div class="colophon">
-    <span>© 2026 Advin</span>
-    <a href="https://github.com/JimothyJohn">github.com/JimothyJohn</a>
-    <a href="mailto:nick@advin.io">Correspondence</a>
-    <span class="sp">Set in Comfortaa</span>
-  </div>
+  <div class="colophon">© 2026 advin.io</div>
 </footer>
 
 </body>

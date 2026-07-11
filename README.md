@@ -1,8 +1,10 @@
 # home
 
-The static home page of [advin.io](https://advin.io) — a showcase of the
-most-developed projects on github.com/JimothyJohn, ranked by commit count.
-The list is curated: uplink, uptime-visuals, and big-canyon-band-page are
+The static home page of [advin.io](https://advin.io) — a project gallery
+for the lab. Each entry links to the project's site (GitHub Pages or custom
+domain) and its source repo, styled with that project's own fonts and
+colors. Entries are ordered by commit count (not shown on the page); the
+list is curated — uplink, uptime-visuals, and big-canyon-band-page are
 deliberately excluded. Visual identity lives in [BRANDING.md](BRANDING.md).
 
 Plain HTML/CSS, no build step. `Deploy Pages` publishes `master` to GitHub
