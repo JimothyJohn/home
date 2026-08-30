@@ -10,6 +10,8 @@ on:
     branches: [master]
     paths:
       - index.html
+      - privacy.html
+      - terms.html
       - deploy/template.yaml
       - scripts/deploy_site.sh
       - .github/workflows/deploy.yml
