@@ -11,6 +11,7 @@ on:
     paths:
       - index.html
       - privacy.html
+      - sms.html
       - terms.html
       - deploy/template.yaml
       - scripts/deploy_site.sh
