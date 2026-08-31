@@ -24,7 +24,7 @@ bucket=$(echo "${outputs}" | python3 -c 'import json,sys; o=json.load(sys.stdin)
 dist_id=$(echo "${outputs}" | python3 -c 'import json,sys; o=json.load(sys.stdin); print(next(x["OutputValue"] for x in o if x["OutputKey"]=="DistributionId"))')
 
 echo "==> Uploading site files to s3://${bucket}"
-for page in index.html privacy.html terms.html; do
+for page in index.html privacy.html terms.html sms.html; do
   aws s3 cp "${page}" "s3://${bucket}/${page}" \
     --region "${AWS_REGION}" \
     --content-type "text/html; charset=utf-8" \
