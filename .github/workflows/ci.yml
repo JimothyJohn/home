@@ -39,3 +39,5 @@ jobs:
               print(f"{f}: parsed, {len(c.links)} local links checked")
           sys.exit(0 if ok else 1)
           PY
+      - name: Test scripts
+        run: python3 -m unittest discover -s tests -v
