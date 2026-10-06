@@ -77,7 +77,7 @@ variable 300–700).
   status, a stamp — set in the project's own type and palette, tilted and
   gently adrift, straightening on hover. One shard per project, never
   more; the shard is evidence, not decoration. The hero carries a
-  seven-tick shard index, one accent per project, linking down the page.
+  eight-tick shard index, one accent per project, linking down the page.
 - **Motion is quiet.** A single staggered rise on load, scroll reveals on
   rows, the shards' slow drift — all disabled under
   `prefers-reduced-motion`. Nothing blinks, nothing loops loudly.
