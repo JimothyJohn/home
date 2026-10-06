@@ -23,3 +23,10 @@ Commit count is the baseline, not a law. An entry whose `.entry` div
 carries `data-pin` was placed by hand and keeps its position; re-rank only
 the unpinned entries around it, and never add or drop a pin without the
 owner asking. The hero's shard index follows the gallery order.
+
+Row backgrounds (`--pbg`) are synced weekly from each project's live page
+by `scripts/refresh_themes.py` — the background a first-time visitor on a
+light-scheme device gets, as far as the served HTML and CSS say. An entry
+carrying `data-pbg-pin` keeps its hand-picked background instead; Specodex
+is pinned to its light theme, because its script opens first-time visitors
+in dark. Tests: `python3 -m unittest discover -s tests -v`.

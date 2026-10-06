@@ -53,6 +53,12 @@ PAGES = {
     ":root[data-theme=dark],:root{--bg-primary:#251d14}"
     "body{font-family:monospace;background-color:var(--bg-primary)}"
     "@media (prefers-color-scheme:dark){:root{--bg-primary:#000}}",
+    # the same stylesheet with the light theme switched on: the rule that matches the
+    # markup outranks the bare :root that follows it
+    "served-light/index.html": '<!DOCTYPE html><html lang="en" data-theme="light"><head>'
+    '<link rel="stylesheet" href="/chrome/assets/app.css"></head><body></body></html>',
+    # served only to a request that asks for HTML (see Handler)
+    "negotiated/index.html": "<html><head><style>body{background:#fcfcfc}</style></head><body></body></html>",
     # nothing but a theme-color to go on
     "metaonly/index.html": '<html><head><meta content="#123456" name="theme-color">'
     "</head><body></body></html>",
@@ -101,9 +107,21 @@ class Handler(http.server.SimpleHTTPRequestHandler):
     def log_message(self, *args):
         self.server.hits.append(self.path)
 
+    def do_GET(self):
+        # amr-emulator: an API root that only answers a request for HTML with the page
+        if self.path == "/negotiated/" and "text/html" not in self.headers.get("Accept", ""):
+            body = b'{"name": "an API, not a page"}'
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+            return
+        super().do_GET()
+
 
 def serve(directory):
-    handler = lambda *a, **kw: Handler(*a, directory=directory, **kw)  # noqa: E731
+    handler = lambda *a, **kw: Handler(*a, directory=directory, **kw)
     server = http.server.ThreadingHTTPServer(("127.0.0.1", 0), handler)
     server.hits = []
     threading.Thread(target=server.serve_forever, daemon=True).start()
@@ -154,7 +172,7 @@ class RefreshThemes(unittest.TestCase):
         before = rows if isinstance(rows, str) else page(rows)
         self.index.write_text(before)
         r = subprocess.run([sys.executable, str(SCRIPT), *flags, str(self.index)],
-                           capture_output=True, text=True, timeout=120)
+                           capture_output=True, text=True, timeout=120, check=False)
         self.assertNotIn("Traceback", r.stderr, r.stdout + r.stderr)
         return r, before, self.index.read_text()
 
@@ -192,7 +210,7 @@ class RefreshThemes(unittest.TestCase):
 
     def test_missing_index_is_an_error(self):
         r = subprocess.run([sys.executable, str(SCRIPT), str(self.index) + ".absent"],
-                           capture_output=True, text=True, timeout=120)
+                           capture_output=True, text=True, timeout=120, check=False)
         self.assertNotEqual(r.returncode, 0, r.stdout + r.stderr)
 
     # --- which background counts ---------------------------------------------
@@ -209,11 +227,17 @@ class RefreshThemes(unittest.TestCase):
     def test_stylesheet_outranks_theme_color(self):
         self.assert_synced_to("chrome", "#251d14", pink="#eeeeee")
 
+    def test_matching_theme_selector_outranks_a_later_bare_root(self):
+        self.assert_synced_to("served-light", "#e8e2c9")
+
     def test_theme_color_is_the_last_resort(self):
         self.assert_synced_to("metaonly", "#123456", pink="#eeeeee")
 
     def test_stylesheet_link_with_href_before_rel(self):
         self.assert_synced_to("hreffirst", "#abcdef")
+
+    def test_page_behind_content_negotiation_is_asked_for_as_html(self):
+        self.assert_synced_to("negotiated", "#fcfcfc")
 
     def test_braces_and_quotes_in_strings_and_comments(self):
         self.assert_synced_to("tricky", "#0a0b0c", pink="#eeeeee")
@@ -227,9 +251,9 @@ class RefreshThemes(unittest.TestCase):
         self.assertEqual(after, before)
 
     def test_in_sync_row_is_left_alone_and_a_second_run_is_a_no_op(self):
-        r, before, after = self.run_cli([self.row("plain"), self.row("toggle")])
+        _, before, after = self.run_cli([self.row("plain"), self.row("toggle")])
         self.assertNotEqual(after, before)
-        r2, before2, after2 = self.run_cli(after, "--check")
+        r2, _, after2 = self.run_cli(after, "--check")
         self.assertEqual(r2.returncode, 0, r2.stdout + r2.stderr)
         self.assertEqual(after2, after)
 
@@ -240,9 +264,9 @@ class RefreshThemes(unittest.TestCase):
         self.assertEqual(after, before.replace("--pbg:#ffffff;", "--pbg:#e9e7e1;"))
 
     def test_unreadable_ink_is_nudged_and_readable_ink_is_kept(self):
-        r, before, after = self.run_cli([self.row("served-dark", pink="#111111")])
+        r, _, after = self.run_cli([self.row("served-dark", pink="#111111")])
         self.assertIn("--pbg:#141310; --pink:#f2f2f2;", after, r.stdout)
-        r, before, after = self.run_cli([self.row("plain", pink="#333333")])
+        r, _, after = self.run_cli([self.row("plain", pink="#333333")])
         self.assertIn("--pbg:#f6f7f8; --pink:#333333;", after, r.stdout)
 
     def test_pinned_row_is_neither_fetched_nor_changed(self):
