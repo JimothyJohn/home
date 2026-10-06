@@ -27,6 +27,8 @@ owner asking. The hero's shard index follows the gallery order.
 Row backgrounds (`--pbg`) are synced weekly from each project's live page
 by `scripts/refresh_themes.py` — the background a first-time visitor on a
 light-scheme device gets, as far as the served HTML and CSS say. An entry
-carrying `data-pbg-pin` keeps its hand-picked background instead; Specodex
-is pinned to its light theme, because its script opens first-time visitors
-in dark. Tests: `python3 -m unittest discover -s tests -v`.
+carrying `data-pbg-pin` keeps its hand-picked background instead. Two are
+pinned: Specodex to its light theme, because its script opens first-time
+visitors in dark; and AMR Emulator to the MiR brand palette of its MiR
+console (`/console`) — blue, the owner's choice — though its title links to
+the site's home page. Tests: `python3 -m unittest discover -s tests -v`.
