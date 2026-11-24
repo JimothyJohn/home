@@ -1,0 +1,9 @@
+@font-face{font-family:Mono;src:url("file:///home/claude/gfonts/ofl/ibmplexmono/IBMPlexMono-Regular.ttf");font-weight:400}
+@font-face{font-family:Mono;src:url("file:///home/claude/gfonts/ofl/ibmplexmono/IBMPlexMono-SemiBold.ttf");font-weight:600}
+@font-face{font-family:Stencil;src:url("file:///home/claude/gfonts/ofl/sairastencilone/SairaStencilOne-Regular.ttf")}
+html,body{margin:0;background:#141414}
+#s{width:960px;height:468px;position:relative;overflow:hidden;background:#141414;color:#F0F0F0;font-family:Mono}
+.hdr{position:absolute;left:28px;top:20px;right:28px;display:flex;align-items:baseline;gap:14px}
+.hdr .t{font-family:Stencil;color:#FFC20E;font-size:26px;letter-spacing:.02em;text-transform:uppercase}
+.hdr .s{font-size:13px;color:#a8a8a8}
+.ft{position:absolute;left:28px;bottom:14px;font-size:11px;color:#7a7a7a;letter-spacing:.04em}

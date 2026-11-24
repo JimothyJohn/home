@@ -1,0 +1,48 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="common.css"><style>
+svg text{font-family:Mono}
+.cnt{position:absolute;right:28px;top:26px;font-size:13px;display:flex;gap:16px}
+.cnt span b{font-weight:600}
+</style></head><body><div id="s">
+<div class="hdr"><span class="t">Panel drawings, read</span><span class="s">panel-layout.dxf</span></div>
+<div class="cnt"><span style="color:#3DD68C">matched <b id="nm">0</b></span><span style="color:#FFC20E">ambiguous <b id="na">0</b></span><span style="color:#a8a8a8">unknown <b id="nu">0</b></span></div>
+<svg id="g" width="960" height="468" style="position:absolute;left:0;top:0"></svg>
+<div class="ft">Helmsman's DXF reader and device matcher, run on its hand-made test drawing. Output as produced.</div>
+</div>
+<script>
+const P=JSON.parse(`[{"block": "IOLOGIK_E1213", "tag": "-A1", "x": 100, "y": 200, "rot": 0, "pn": "ioLogik E1213", "model": null, "near": [], "inside": [], "match": "matched", "ids": ["moxa/iologik-e1213"]}, {"block": "SENSOR_M12", "tag": "-B1", "x": 300, "y": 200, "rot": 90, "pn": null, "model": "IF6123", "near": [], "inside": [], "match": "matched", "ids": ["ifm/if6123"]}, {"block": "SENSOR_M12", "tag": "-B2", "x": 340, "y": 200, "rot": 0, "pn": null, "model": "O5D100", "near": [], "inside": [], "match": "matched", "ids": ["ifm/o5d100"]}, {"block": "MURR_8DI8DO", "tag": null, "x": 500, "y": 200, "rot": 0, "pn": null, "model": null, "near": ["Remote I/O station 4", "IMPACT67 E DI8 DO8"], "inside": [], "match": "ambiguous", "ids": ["murrelektronik/impact67-e-di8-do8"]}, {"block": "MYSTERY", "tag": "-X9", "x": 700, "y": 200, "rot": 0, "pn": null, "model": null, "near": [], "inside": [], "match": "unknown", "ids": []}, {"block": "DINRAIL", "tag": null, "x": 0, "y": 150, "rot": 0, "pn": null, "model": null, "near": [], "inside": [], "match": "unknown", "ids": []}, {"block": "CABINET", "tag": null, "x": 1000, "y": 0, "rot": 0, "pn": null, "model": null, "near": [], "inside": [], "match": "unknown", "ids": []}, {"block": "SENSOR_M12", "tag": "-B?", "x": 1100, "y": 50, "rot": 0, "pn": null, "model": null, "near": [], "inside": ["CABINET"], "match": "unknown", "ids": []}, {"block": "LOOP", "tag": null, "x": 0, "y": 0, "rot": 0, "pn": null, "model": null, "near": [], "inside": [], "match": "unknown", "ids": []}, {"block": "LOOP", "tag": null, "x": 5, "y": 5, "rot": 0, "pn": null, "model": null, "near": [], "inside": ["LOOP"], "match": "unknown", "ids": []}]`).filter(p=>p.block!=='LOOP');
+const X=x=>70+x*0.72, Y=y=>395-y*1.05;
+const size={IOLOGIK_E1213:[70,52],SENSOR_M12:[22,22],MURR_8DI8DO:[86,40],MYSTERY:[40,40],DINRAIL:[576,10],CABINET:[150,200]};
+const col={matched:'#3DD68C',ambiguous:'#FFC20E',unknown:'#8a8a8a'};
+const g=document.getElementById('g');
+function el(n,a,parent=g){const e=document.createElementNS('http://www.w3.org/2000/svg',n);for(const k in a)e.setAttribute(k,a[k]);parent.appendChild(e);return e}
+const items=P.map(p=>{const [w,h]=size[p.block]||[30,30];const cx=X(p.x),cy=Y(p.y);
+  let x=cx, y=cy-h; if(p.block==='DINRAIL'){x=X(0);y=Y(150)-5} if(p.block==='CABINET'){x=X(1000);y=Y(220)}
+  const grp=el('g',{});
+  const r=el('rect',{x,y,width:w,height:h,rx:3,fill:'none',stroke:'#5a5a5a','stroke-width':1.4},grp);
+  if(p.rot===90){r.setAttribute('transform',`rotate(90 ${x+w/2} ${y+h/2})`)}
+  const lbl=el('text',{x:x+w/2+(p.tag==='-B1'?-14:p.tag==='-B2'?14:0),y:y+h+14+(p.tag==='-B2'?12:0),'text-anchor':'middle','font-size':10,fill:'#7a7a7a'},grp); lbl.textContent=(p.tag?p.tag+' ':'')+p.block.toLowerCase();
+  const chipG=el('g',{opacity:0},grp);
+  const txt=p.match==='matched'?p.ids[0]:p.match==='ambiguous'?'? '+p.ids[0].split('/')[1]:'unknown';
+  const tw=txt.length*6.6+16;
+  let chx=x+w/2-tw/2, chy=y-30; if(p.block==='DINRAIL'){chx=X(0)+8; chy=Y(150)+16} if(p.block==='CABINET'){chx=x+w-tw; chy=y-30} if(p.inside&&p.inside.length){chy=y+h+20} if(p.tag==='-B1'){chy=y-58;chx=x-6} if(p.tag==='-B2'){chx=x+w/2-10}
+  el('rect',{x:chx,y:chy,width:tw,height:20,rx:10,fill:p.match==='unknown'?'#222':'#1b1b1b',stroke:col[p.match],'stroke-width':1.4},chipG);
+  const ct=el('text',{x:chx+tw/2,y:chy+14,'text-anchor':'middle','font-size':11,fill:col[p.match],'font-weight':600},chipG); ct.textContent=txt;
+  return {p,r,lbl,chipG,cx:p.block==='DINRAIL'?X(380):p.block==='CABINET'?X(1000):x+w/2};
+});
+const scan=el('line',{x1:0,x2:0,y1:80,y2:430,stroke:'#FFC20E','stroke-width':2,opacity:0});
+const ease=t=>t<0?0:t>1?1:t*t*(3-2*t);
+window.render=function(t){
+  const draw=ease(t/0.9);
+  items.forEach(it=>{it.r.setAttribute('opacity',draw);it.lbl.setAttribute('opacity',draw)});
+  const sx=60+(t-1.2)/4.2*900; const on=t>1.2&&t<5.6;
+  scan.setAttribute('x1',sx);scan.setAttribute('x2',sx);scan.setAttribute('opacity',on?0.9:0);
+  let n={matched:0,ambiguous:0,unknown:0};
+  items.forEach(it=>{const hit=t>1.2&&sx>=it.cx||t>=5.6; const since=(sx-it.cx)/60;
+    it.chipG.setAttribute('opacity',hit?Math.min(1,t>=5.6?1:since):0);
+    it.r.setAttribute('stroke',hit?col[it.p.match]:'#5a5a5a');
+    it.r.setAttribute('stroke-width',hit?2:1.4);
+    if(hit)n[it.p.match]++;});
+  nm.textContent=n.matched;na.textContent=n.ambiguous;nu.textContent=n.unknown;
+};
+render(0);
+</script></body></html>
