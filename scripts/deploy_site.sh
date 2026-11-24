@@ -31,6 +31,16 @@ for page in index.html privacy.html terms.html sms.html; do
     --cache-control "public, max-age=300"
 done
 
+# Email campaign assets (GIFs, images) hotlinked from Constant Contact emails.
+# Each send gets its own dated folder, so files never change once published:
+# cache them for a year. No --delete, so assets of past emails keep resolving.
+if [ -d email ]; then
+  echo "==> Uploading email assets to s3://${bucket}/email/"
+  aws s3 sync email "s3://${bucket}/email" \
+    --region "${AWS_REGION}" \
+    --cache-control "public, max-age=31536000, immutable"
+fi
+
 echo "==> Invalidating distribution ${dist_id}"
 invalidation=$(aws cloudfront create-invalidation \
   --distribution-id "${dist_id}" --paths "/*" \
