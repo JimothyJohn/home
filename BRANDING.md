@@ -7,8 +7,8 @@ implementation.
 
 ## Identity
 
-**advin.io** is a boutique AI research lab in **Dallas, TX** — handcrafted,
-exclusive, small on purpose. The location is part of the story: a
+**advin.io** is an AI research lab in **Dallas, TX** — handcrafted,
+exclusive, small on purpose. The legal entity is **advin.io LLC**. The location is part of the story: a
 cutting-edge lab in a metroplex with few if any others. State it plainly
 (hero, footer, bios); never bury it. The brand is deliberately plain:
 near-pure white, near-pure black, one rounded typeface. No gradients, no
@@ -18,7 +18,22 @@ The name is **advin.io**, written exactly that way — **always lowercase,
 always with the `.io`** — in headings, body copy, the wordmark, everywhere.
 Never "Advin", never "ADVIN.IO".
 
-The wordmark is the name set in Comfortaa Bold.
+The wordmark is the name set in Comfortaa Bold. Outlined SVGs live in
+`brand/`.
+
+**Two faces.** advin.io is the business and lives in **light mode**.
+**ADVINIO** — always uppercase, no dot, set in **Comfortaa Light** — is the
+creative outlet, the hidden Easter egg beneath the technology, and lives in
+**dark mode**. A visitor whose device is dark lands in ADVINIO; one whose
+device turns dark while the page is open watches advin.io fade into it (the
+dimension shift). ADVINIO is never announced or linked from business
+surfaces; legal pages, email and documents are always advin.io light.
+
+**The mark** is a capital **A** in Comfortaa Light — ADVINIO's letter on
+loan to the business. Anything circular or square-cropped (favicon,
+avatars, social profiles) uses the A. The lowercase "a" exists only inside
+the name advin.io. (A small eye logo from earlier projects is parked as a
+possible future idea.)
 
 ## Color
 
@@ -30,12 +45,17 @@ Monochrome by decree. Two anchors, with grays mixed from them as needed.
 | `--ink` | `#0d0d0d` | Text, rules, accents — near-pure black |
 | `--paper2` | `#f4f4f4` | Hover / raised surfaces |
 | `--ink-soft` | `#3d3d3d` | Secondary text |
-| `--faint` | `#8a8a8a` | Tertiary text |
+| `--faint` | `#8a8a8a` | Icons and marks only (3.36:1 fails for text) |
+| `--faint-text` | `#6b6b6b` | Tertiary text — colophon, meta (5.19:1) |
 | `--rule` | `#e4e4e4` | Hairline rules, borders |
 
 Rules of use:
 
-- **No hues** in the frame — emphasis comes from weight, size, and spacing.
+- **No hues** in the frame — emphasis comes from weight, size, spacing and
+  depth. Subtle background gradients within the near-pure range are welcome.
+- ADVINIO mirrors the palette: `paper` `#0d0d0d`, `paper2` `#181818`, `ink`
+  `#fcfcfc`, `ink-soft` `#c2c2c2`, `faint-text` `#8a8a8a`, `faint` `#6b6b6b`,
+  `rule` `#262626`.
 - Never pure `#ffffff` on `#000000`; the near-pure pair is the brand.
 - Selection inverts: ink background, paper text.
 - **The one exception: project gallery entries.** Each showcased project may
@@ -74,23 +94,31 @@ variable 300–700).
   stale.
 - **Soul shards.** Each entry casts one small fragment of its project's
   world into the row's white space — a spec row, an API response, a fleet
-  status, a stamp — set in the project's own type and palette, tilted and
-  gently adrift, straightening on hover. One shard per project, never
+  status, a stamp — set in the project's own type and palette, tilted,
+  straightening on hover. One shard per project, never
   more; the shard is evidence, not decoration. The hero carries a
-  nine-tick shard index, one accent per project, linking down the page.
-- **Motion is quiet.** A single staggered rise on load, scroll reveals on
-  rows, the shards' slow drift — all disabled under
-  `prefers-reduced-motion`. Nothing blinks, nothing loops loudly.
+  shard index, one tick per gallery entry in its project's accent, linking
+  down the page (a tick that vanishes on the dark ground carries a `--cd`
+  from its project's own palette).
+- **Motion is quiet and mostly interactive.** If the visitor isn't moving
+  the page, the page doesn't move: no idle loops or drift. A single
+  staggered rise on load, scroll reveals on rows, hover responses, and the
+  dimension shift — all disabled under `prefers-reduced-motion`.
 - **Heavy rules.** Sections open with a 3px ink rule; entries separate with
   hairlines.
-- **Flat surfaces.** No shadows, no grain, no texture.
+- **Depth, not decoration.** Shadows are welcome when they render smooth:
+  two layers (tight contact + wide ambient), low alpha, ink-tinted, blur
+  ≤ 56px; in ADVINIO add a 1px top rim. Never transition `box-shadow` —
+  fade a pseudo-element that carries it. No grain or texture.
 
 ## Voice
 
 - Plain, declarative, a little dry. Handcrafted and exclusive — never
-  salesy. No exclamation points.
-- Numbers over adjectives; projects are described by what they do, in one
-  or two sentences.
+  salesy. No exclamation points, no emoji. Dry, not cute.
+- Adjectives are fine when data backs them up. Purpose lines stay general
+  and memorable; datasheets and specs carry the specific numbers.
+- Projects are described by what they do, in one or two sentences.
+- Simple words over marketing words. Emails sign off with "Thanks,".
 
 ## Links
 
@@ -103,7 +131,12 @@ variable 300–700).
   from the hero.
 - Contact is a single pill button, top right, opening mail to
   `nick@advin.io`. No other contact affordances.
-- The footer is a single centered copyright line — nothing else.
+- The footer is one centered line: `© 2026 advin.io LLC · Dallas, TX` and
+  the privacy and terms links (ADVINIO: `© 2026 ADVINIO · an advin.io LLC
+  endeavor`).
+- Projects incubate on advin.io subdomains; one that graduates gets its own
+  domain, like an Apache or Eclipse incubator. Documentation, privacy and
+  data policies live on advin.io and are shared across projects.
 
 ## Assets & implementation
 
@@ -111,4 +144,8 @@ variable 300–700).
 - Fonts load from Google Fonts with `preconnect`; project-entry faces load
   only the weights the entries use.
 - Anything new (an error page, a project card, an email footer) starts from
-  the tokens in this file.
+  the tokens in this file. The full brand book — voice, email, social,
+  imagery, ADVINIO, live previews — is the advin.io design system:
+  https://claude.ai/artifact/J8czVPWQFHVLdtgi2kkTPR
+- `brand/` holds the outlined wordmarks (advin.io, ADVINIO), the A mark,
+  avatars and the email wordmark; the root holds the favicons and `og.png`.

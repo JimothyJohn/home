@@ -30,6 +30,21 @@ for page in index.html privacy.html terms.html sms.html; do
     --content-type "text/html; charset=utf-8" \
     --cache-control "public, max-age=300"
 done
+# icons, the social card, and brand assets (wordmarks, the A, avatars, email images)
+upload() {  # path content-type
+  aws s3 cp "$1" "s3://${bucket}/$1" --region "${AWS_REGION}" \
+    --content-type "$2" --cache-control "public, max-age=86400"
+}
+upload favicon.svg image/svg+xml
+upload favicon.ico image/x-icon
+upload apple-touch-icon.png image/png
+upload og.png image/png
+for f in brand/*; do
+  case "$f" in
+    *.svg) upload "$f" image/svg+xml ;;
+    *.png) upload "$f" image/png ;;
+  esac
+done
 
 echo "==> Invalidating distribution ${dist_id}"
 invalidation=$(aws cloudfront create-invalidation \

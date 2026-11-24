@@ -13,6 +13,11 @@ on:
       - privacy.html
       - sms.html
       - terms.html
+      - favicon.svg
+      - favicon.ico
+      - apple-touch-icon.png
+      - og.png
+      - 'brand/**'
       - deploy/template.yaml
       - scripts/deploy_site.sh
       - .github/workflows/deploy.yml

@@ -5,20 +5,81 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>advin.io — boutique AI research lab</title>
 <meta name="description" content="advin.io is a boutique AI research lab in Dallas, TX. A gallery of handcrafted projects — a soft PLC, industrial spec data, 3D robot picking, robot emulators, embedded fleets — each linked to its site and source.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://advin.io/">
+<meta property="og:title" content="advin.io">
+<meta property="og:description" content="Handcrafted systems for industrial intelligence, built in Dallas, TX.">
+<meta property="og:image" content="https://advin.io/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="color-scheme" content="light dark">
+<script>
+  /* two faces: advin.io (light) and ADVINIO (dark). Set before first paint,
+     so a dark-mode visitor lands in ADVINIO with no flash of the light site. */
+  document.documentElement.dataset.theme =
+    matchMedia('(prefers-color-scheme: dark)').matches ? 'advinio' : 'advin';
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Oswald:wght@600&family=Chakra+Petch:wght@600&family=Big+Shoulders+Display:wght@700&family=IM+Fell+English:ital@0;1&family=Saira+Stencil+One&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
+  /* registered so the dimension shift can interpolate them */
+  @property --paper      { syntax: "<color>"; inherits: true; initial-value: #fcfcfc; }
+  @property --paper2     { syntax: "<color>"; inherits: true; initial-value: #f4f4f4; }
+  @property --ink        { syntax: "<color>"; inherits: true; initial-value: #0d0d0d; }
+  @property --ink-soft   { syntax: "<color>"; inherits: true; initial-value: #3d3d3d; }
+  @property --faint      { syntax: "<color>"; inherits: true; initial-value: #8a8a8a; }
+  @property --faint-text { syntax: "<color>"; inherits: true; initial-value: #6b6b6b; }
+  @property --rule       { syntax: "<color>"; inherits: true; initial-value: #e4e4e4; }
   :root {
+    /* advin.io: the business, light */
     --paper: #fcfcfc;          /* near-pure white */
     --paper2: #f4f4f4;
     --ink: #0d0d0d;            /* near-pure black */
     --ink-soft: #3d3d3d;
-    --faint: #8a8a8a;
+    --faint: #8a8a8a;          /* marks only (3.36:1) */
+    --faint-text: #6b6b6b;     /* words (5.19:1) */
     --rule: #e4e4e4;
+    --shadow-2: 0 1px 2px rgba(13,13,13,.06), 0 4px 12px rgba(13,13,13,.08);
+    --shadow-3: 0 2px 4px rgba(13,13,13,.06), 0 10px 28px rgba(13,13,13,.14);
     --font: "Comfortaa", sans-serif;
     --mono: "IBM Plex Mono", monospace;
   }
+  /* ADVINIO: the creative outlet, dark — an exact mirror */
+  :root[data-theme="advinio"] {
+    --paper: #0d0d0d;
+    --paper2: #181818;
+    --ink: #fcfcfc;
+    --ink-soft: #c2c2c2;
+    --faint: #6b6b6b;
+    --faint-text: #8a8a8a;
+    --rule: #262626;
+    --shadow-2: inset 0 1px 0 rgba(252,252,252,.06), 0 2px 4px rgba(0,0,0,.5), 0 6px 16px rgba(0,0,0,.45);
+    --shadow-3: inset 0 1px 0 rgba(252,252,252,.07), 0 4px 8px rgba(0,0,0,.55), 0 14px 36px rgba(0,0,0,.6);
+  }
+  /* the dimension shift: only while the OS scheme changes under an open page */
+  :root.shifting {
+    transition: --paper 1.4s ease-in-out, --paper2 1.4s ease-in-out, --ink 1.4s ease-in-out,
+      --ink-soft 1.4s ease-in-out, --faint 1.4s ease-in-out, --faint-text 1.4s ease-in-out,
+      --rule 1.4s ease-in-out;
+  }
+  /* two names in one slot */
+  .name2 { display: inline-grid; }
+  .name2 > span { grid-area: 1 / 1; }
+  .name2 .biz { font-weight: 700; letter-spacing: -0.02em; }
+  .name2 .art { font-weight: 300; letter-spacing: 0.04em; text-transform: uppercase; opacity: 0; }
+  [data-theme="advinio"] .name2 .biz { opacity: 0; }
+  [data-theme="advinio"] .name2 .art { opacity: 1; }
+  .shifting .name2 > span { transition: opacity .7s ease, letter-spacing .8s ease, font-weight .7s ease, filter .7s ease; }
+  .shifting .name2 .art:not(.leaving) { transition-delay: .5s; }
+  .shifting .name2 .leaving { letter-spacing: .3em; font-weight: 300; filter: blur(6px); }
+  .shifting .entry { animation: dip .7s ease both; animation-delay: calc(.3s + var(--i, 0) * 40ms); }
+  @keyframes dip { 50% { transform: scale(.98); opacity: .6; } }
+  [data-theme="advinio"] .shard-index a { background: var(--cd, var(--c)); }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
   body {
@@ -127,15 +188,20 @@
     justify-self: end;
     width: max-content; max-width: 240px;
     rotate: var(--tilt, -2deg);
-    animation: drift 7s ease-in-out infinite alternate;
-    animation-delay: var(--dd, 0s);
-    transition: rotate .25s ease, box-shadow .25s ease;
+    position: relative;
+    box-shadow: var(--shadow-2);
+    transition: rotate .25s ease;
     border-radius: 6px;
     padding: 13px 16px;
     font-size: 12px; line-height: 1.6;
   }
-  .entry:hover .shard { rotate: 0deg; box-shadow: 0 10px 28px rgba(13,13,13,.14); }
-  @keyframes drift { from { translate: 0 -4px; } to { translate: 0 4px; } }
+  .shard::after {
+    content: ""; position: absolute; inset: 0; border-radius: inherit;
+    box-shadow: var(--shadow-3); opacity: 0; transition: opacity .25s ease;
+    pointer-events: none;
+  }
+  .entry:hover .shard { rotate: 0deg; }
+  .entry:hover .shard::after { opacity: 1; }
   .shard .tag {
     display: block; font-family: var(--mono); font-size: 9.5px;
     letter-spacing: 0.14em; text-transform: uppercase; opacity: .65;
@@ -152,7 +218,9 @@
 
   @media (prefers-reduced-motion: reduce) {
     .rise, .reveal { animation: none; transition: none; opacity: 1; transform: none; }
-    .shard { animation: none; }
+    .shard, .shard::after { transition: none; }
+    :root.shifting, .shifting .name2 > span { transition: none; }
+    .shifting .entry { animation: none; }
     html { scroll-behavior: auto; }
   }
 
@@ -161,15 +229,16 @@
   .colophon {
     border-top: 3px solid var(--ink); padding-top: 22px;
     text-align: center;
-    font-size: 12px; letter-spacing: 0.08em; color: var(--faint);
+    font-size: 12px; letter-spacing: 0.08em; color: var(--faint-text);
   }
+  [data-theme="advin"] .colophon .art, [data-theme="advinio"] .colophon .biz { display: none; }
 </style>
 </head>
 <body>
 
 <header class="wrap">
   <div class="mast">
-    <span class="word">advin.io</span>
+    <span class="word name2"><span class="biz">advin.io</span><span class="art" aria-hidden="true">ADVINIO</span></span>
     <span class="sp"></span>
     <a class="contact" href="mailto:nick@advin.io">contact</a>
   </div>
@@ -177,7 +246,7 @@
 
 <main class="wrap">
   <div class="hero">
-    <h1 class="rise">advin.io</h1>
+    <h1 class="rise"><span class="name2"><span class="biz">advin.io</span><span class="art" aria-hidden="true">ADVINIO</span></span></h1>
     <p class="dek rise">A <b>boutique AI research lab</b> in <b>Dallas, TX</b>.
     Handcrafted systems for industrial intelligence — soft PLCs, spec
     data, 3D picking, robot emulators, device fleets — built in the metroplex, with
@@ -191,7 +260,7 @@
       <a href="#supervictor" title="supervictor" style="--c:#f97316"></a>
       <a href="#tensor-factory" title="tensor factory" style="--c:#e1261c"></a>
       <a href="#userver" title="uServer" style="--c:#0d6efd"></a>
-      <a href="#ophanim" title="ophanim" style="--c:#050505"></a>
+      <a href="#ophanim" title="ophanim" style="--c:#050505; --cd:#a0a0a0"></a>
       <a href="#colmapper" title="colmapper" style="--c:#8a8a8a"></a>
     </nav>
   </div>
@@ -374,10 +443,28 @@
 </main>
 
 <footer class="wrap">
-  <div class="colophon">© 2026 advin.io · Dallas, TX · <a href="privacy.html">privacy</a> · <a href="terms.html">terms</a></div>
+  <div class="colophon"><span class="biz">© 2026 advin.io LLC · Dallas, TX</span><span class="art">© 2026 ADVINIO · an advin.io LLC endeavor</span> · <a href="privacy.html">privacy</a> · <a href="terms.html">terms</a></div>
 </footer>
 
 <script>
+// The dimension shift: when the OS scheme changes under an open page, advin.io
+// fades into ADVINIO (or back). First load never fades; reduced motion swaps.
+(function () {
+  var root = document.documentElement, busy = 0;
+  document.querySelectorAll('.entry').forEach(function (el, i) { el.style.setProperty('--i', i); });
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function (e) {
+    var leaving = document.querySelectorAll(e.matches ? '.name2 .biz' : '.name2 .art');
+    root.classList.add('shifting');
+    leaving.forEach(function (el) { el.classList.add('leaving'); });
+    root.dataset.theme = e.matches ? 'advinio' : 'advin';
+    clearTimeout(busy);
+    busy = setTimeout(function () {
+      root.classList.remove('shifting');
+      leaving.forEach(function (el) { el.classList.remove('leaving'); });
+    }, 1500);
+  });
+})();
+
 // Scroll reveal for gallery rows; staggered per batch, reduced-motion safe.
 (function () {
   var rows = document.querySelectorAll('.reveal');
